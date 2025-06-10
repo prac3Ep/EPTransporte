@@ -1,0 +1,244 @@
+@model EPTransporte.Models.Sucursal
+
+@{
+    ViewBag.Title = "Gestión de Sucursales";
+    var sucursalesList = ViewBag.SucursalesList as IEnumerable<EPTransporte.Models.Sucursal> ?? new List<EPTransporte.Models.Sucursal>();
+}
+
+<div class="admin-container">
+    <h2 class="page-title">
+        <i class="fas fa-warehouse mr-2"></i>@ViewBag.Title
+    </h2>
+    <!-- Formulario de creación/edición -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">
+                <i class="fas @(Model.Id > 0 ? "fa-edit" : "fa-plus") mr-2"></i>
+                @(Model.Id > 0 ? "Editar Sucursal" : "Nueva Sucursal")
+            </h4>
+        </div>
+        <div class="card-body p-4">
+            @using (Html.BeginForm("Save", "Sucursales", FormMethod.Post,
+                   new { @class = "needs-validation", novalidate = "novalidate", id = "sucursalForm" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.Id)
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            @Html.TextBoxFor(model => model.SitioEP, new { @class = "form-control", placeholder = "Sitio EP" })
+                            @Html.LabelFor(model => model.SitioEP, "Sitio EP")
+                            @Html.ValidationMessageFor(model => model.SitioEP, "", new { @class = "invalid-feedback" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            @Html.TextBoxFor(model => model.Ubicacion, new { @class = "form-control", placeholder = "Ubicación" })
+                            @Html.LabelFor(model => model.Ubicacion, "Ubicación")
+                            @Html.ValidationMessageFor(model => model.Ubicacion, "", new { @class = "invalid-feedback" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-12" hidden="hidden">
+                        <div class="form-check form-switch mb-3">
+                            @Html.CheckBoxFor(model => model.Habilitado, new { @class = "form-check-input", role = "switch" })
+                            @Html.LabelFor(model => model.Habilitado, "Habilitado", new { @class = "form-check-label" })
+                            @Html.ValidationMessageFor(model => model.Habilitado, "", new { @class = "invalid-feedback" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions mt-4 pt-3 border-top">
+                    <div class="d-flex justify-content-between">
+                        @if (Model.Id > 0)
+                        {
+                            <a href="@Url.Action("Index")" class="btn btn-outline-primary">
+                                <i class="fas fa-plus-circle mr-2"></i>Nuevo
+                            </a>
+                        }
+                        else
+                        {
+                            <div></div> <!-- Espaciador -->
+                        }
+
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="fas fa-save mr-2"></i>@(Model.Id > 0 ? "Actualizar" : "Guardar")
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Tabla de sucursales -->
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h4 class="mb-0">
+                <i class="fas fa-list mr-2"></i>Listado de Sucursales
+            </h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped" id="sucursalesTable">
+                    <thead class="thead-light">
+                        <tr>
+                            <th><i class="fas fa-warehouse mr-2"></i>Sitio EP</th>
+                            <th><i class="fas fa-map-marker-alt mr-2"></i>Ubicación</th>
+                            <th><i class="fas fa-power-off mr-2"></i>Estado</th>
+                            <th><i class="fas fa-cogs mr-2"></i>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in sucursalesList)
+                        {
+                            <tr>
+                                <td>@item.SitioEP</td>
+                                <td>@item.Ubicacion</td>
+                                <td>
+                                    <span class="badge @(item.Habilitado ? "badge-success" : "badge-danger")">
+                                        @(item.Habilitado ? "Activo" : "Inactivo")
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-sm btn-warning">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <button class="btn btn-sm @(item.Habilitado ? "btn-danger" : "btn-success") toggle-estado"
+                                                data-id="@item.Id">
+                                            <i class="fas @(item.Habilitado ? "fa-toggle-off" : "fa-toggle-on")"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Manejar clic en botones de cambio de estado (similar al de usuarios)
+            $(document).on('click', '.toggle-estado', function() {
+                var sucursalId = $(this).data('id');
+                var button = $(this);
+
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: "¿Deseas cambiar el estado de esta sucursal?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, cambiar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var token = $('input[name="__RequestVerificationToken"]').val();
+
+                        // Mostrar loader
+                        Swal.fire({
+                            title: 'Procesando...',
+                            html: 'Por favor espere',
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+
+                        $.ajax({
+                            url: '@Url.Action("ToggleEstado", "Sucursales")',
+                            type: 'POST',
+                            headers: {
+                                'RequestVerificationToken': token
+                            },
+                            data: {
+                                id: sucursalId,
+                                __RequestVerificationToken: token
+                            },
+                            success: function(response) {
+                                Swal.close();
+                                if (response.success) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: '¡Éxito!',
+                                        text: response.message,
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    }).then(() => {
+                                        location.reload();
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error',
+                                        text: response.message
+                                    });
+                                }
+                            },
+                            error: function(xhr) {
+                                Swal.close();
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'Error al comunicarse con el servidor'
+                                });
+                                console.error(xhr.responseText);
+                            }
+                        });
+                    }
+                });
+            });
+
+            // Validación del formulario (similar al de usuarios)
+            $('form').on('submit', function(e) {
+                var $form = $(this);
+
+                if (!$form.valid()) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error de validación',
+                        text: 'Por favor, complete todos los campos requeridos correctamente.'
+                    });
+                    $form.addClass('was-validated');
+                    return false;
+                }
+
+                Swal.fire({
+                    title: 'Procesando...',
+                    html: 'Por favor espere',
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                return true;
+            });
+
+            // DataTable
+            try {
+                $('#sucursalesTable').DataTable({
+                    responsive: true,
+                    language: {
+                        url: '@Url.Content("~/Content/DataTables/Spanish.json")'
+                    },
+                    columnDefs: [{
+                        orderable: false,
+                        targets: [3],
+                        className: 'dt-center'
+                    }],
+                    order: [[2, 'asc']]
+                });
+            } catch(e) {
+                console.error("Error al inicializar DataTables:", e);
+            }
+        });
+    </script>
+}

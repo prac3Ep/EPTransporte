@@ -1,0 +1,324 @@
+﻿<!DOCTYPE html>
+<html lang="@(ViewBag.IdiomaActual ?? "es")">
+<head>
+    <link rel="icon" href="@Url.Content("~/imagen/logo_isotipo.png")" type="image/x-icon">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - TransporteEP</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/Content/iconos/css/all.min.css" />
+    <!-- Hojas de estilo principales -->
+    <link rel="stylesheet" href="~/Content/Site.css" />
+    <style>
+        .sidebar .dropdown-menu {
+            position: absolute !important;
+            top: 0 !important;
+            left: 100% !important;
+            right: auto !important;
+            margin-top: 0 !important;
+            margin-left: 0 !important;
+            min-width: 220px;
+            transform: none !important;
+            will-change: initial !important;
+            display: none;
+            border-radius: 0 4px 4px 4px;
+        }
+
+        .sidebar .dropdown.show .dropdown-menu {
+            display: block;
+        }
+
+        .sidebar .nav-item {
+            position: static !important;
+        }
+
+        .sidebar .dropdown {
+            position: relative !important;
+        }
+
+        .sidebar {
+            overflow: visible !important;
+            z-index: 1000;
+        }
+
+            .sidebar .dropdown-menu {
+                box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+                border: 1px solid #dee2e6;
+            }
+
+            .sidebar .dropdown-item {
+                padding: 8px 16px;
+                transition: background-color 0.2s;
+            }
+
+                .sidebar .dropdown-item:hover {
+                    background-color: #f8f9fa;
+                }
+
+                .sidebar .dropdown-item i {
+                    width: 20px;
+                    text-align: center;
+                    margin-right: 8px;
+                }
+    </style>
+
+    <!-- DataTables CSS -->
+    <link href="@Url.Content("~/Content/DataTables/datatables.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/DataTables/dataTables.css")" rel="stylesheet" />
+
+    <!-- Bundles de estilos -->
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+
+<body>
+    <!-- Barra de navegación superior -->
+    <nav class="navbar" style="background-color: #e8e8e8; box-shadow: 2px 0 12px rgba(0,0,0,0.08); display: flex; align-items: center; padding: 0 16px; height: 56px;">
+        <div id="menu-toggle" style="cursor: pointer; margin-right: 16px;">
+            <i class="fa-solid fa-bars fa-2x"></i>
+        </div>
+        <a href="@Url.Action("Index", "Home")">
+            <img src="@Url.Content("~/imagen/EPLogistics-logo.png")" alt="EP Logistics" style="height: 40px;" />
+        </a>
+    </nav>
+
+    <!-- Contenedor principal -->
+    <div>
+        <!-- Barra lateral -->
+        <nav class="sidebar">
+            <div class="position-sticky">
+                <ul class="nav flex-column">
+                    <!-- Menú de Administración -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-gears"></i> Administración
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                            <li>
+                                <a href="@Url.Action("Index", "Usuarios")" class="dropdown-item">
+                                    <i class="fa-solid fa-users"></i> Usuarios
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Sucursales")" class="dropdown-item">
+                                    <i class="fa-solid fa-building"></i> Sucursales
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Configuracion", "Configuracion")" class="dropdown-item">
+                                    <i class="fa-solid fa-gear"></i> Configuración
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- Menú de Transporte -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="transporteDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-truck-moving"></i> Transporte
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="transporteDropdown">
+                            <li>
+                                <a href="@Url.Action("Index", "Transportistas")" class="dropdown-item">
+                                    <i class="fa-solid fa-people-roof"></i> Transportistas
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Operadores")" class="dropdown-item">
+                                    <i class="fa-solid fa-id-card"></i> Operadores
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Economicos")" class="dropdown-item">
+                                    <i class="fa-solid fa-truck"></i> Vehículos
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- Menú de Operaciones -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="operacionesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-clipboard-list"></i> Salidas
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="operacionesDropdown">
+                            <li>
+                                <a href="@Url.Action("addSalida", "Salida")" class="dropdown-item">
+                                    <i class="fa-solid fa-newspaper"></i> Crear pase de salida
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Salida")" class="dropdown-item">
+                                    <i class="fa-solid fa-check-to-slot"></i> Pases de salida
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("VistaReporte", "Salida")" class="dropdown-item">
+                                    <i class="fa-solid fa-folder-open"></i> Reportes
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- Menú de Operaciones -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="operacionesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-list-check"></i> Entradas
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="operacionesDropdown">
+                            <li>
+                                <a href="@Url.Action("Index", "Entrada")" class="dropdown-item">
+                                    <i class="fa-solid fa-check-to-slot"></i> Registro de entradas
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("VistaReporte", "Entrada")" class="dropdown-item">
+                                    <i class="fa-solid fa-folder-open"></i> Reportes
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- Menú de Operaciones -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="operacionesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-list-ul"></i> Entradas <br>Generales
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="operacionesDropdown">
+                            <li>
+                                <a href="@Url.Action("Index", "EntradaGeneral")" class="dropdown-item">
+                                    <i class="fa-solid fa-check-to-slot"></i> Registro de entradas generales
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("VistaReporte", "EntradaGeneral")" class="dropdown-item">
+                                    <i class="fa-solid fa-folder-open"></i> Reportes
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Contenido principal -->
+        <main class="main-content">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - EP Logistics</p>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <!-- DataTables JS -->
+    <script src="@Url.Content("~/Content/DataTables/datatables.min.js")"></script>
+    <script src="@Url.Content("~/Content/DataTables/dataTables.js")"></script>
+    <link href="~/Content/toastr/toastr.min.css" rel="stylesheet" />
+    <script src="~/Content/toastr/toastr.min.js"></script>
+    <script src="~/Scripts/alertas.js"></script>
+    @RenderSection("scripts", required: false)
+
+    <script src="@Url.Content("~/Scripts/bootstrap.bundle.min.js")"></script>
+
+    <!-- Scripts globales -->
+    <script>
+        // Menú toggle
+        document.getElementById('menu-toggle')?.addEventListener('click', function () {
+            document.querySelector('.sidebar')?.classList.toggle('active');
+            document.querySelector('.main-content')?.classList.toggle('shifted');
+        });
+
+        // Auto-dismiss para alertas
+        $(document).ready(function () {
+            setTimeout(function () {
+                $('.auto-dismiss').fadeOut('slow', function () {
+                    $(this).remove();
+                });
+            }, 5000);
+
+
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <text>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: '@Html.Raw(TempData["SuccessMessage"])',
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 5000,
+                    timerProgressBar: true,
+                    customClass: {
+                        container: 'my-swal-container' // Clase personalizada para ajustes adicionales
+                    }
+                });
+                </text>
+            }
+
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <text>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: '@Html.Raw(TempData["ErrorMessage"])',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    customClass: {
+                        container: 'my-swal-container' // Clase personalizada para ajustes adicionales
+                    }
+                });
+                </text>
+            }
+        });
+
+        // Inicialización de dropdowns con hover
+        document.addEventListener('DOMContentLoaded', function () {
+            const dropdowns = document.querySelectorAll('.sidebar .dropdown');
+
+            dropdowns.forEach(function (dropdown) {
+                const toggle = dropdown.querySelector('.dropdown-toggle');
+                const menu = dropdown.querySelector('.dropdown-menu');
+
+                // Mostrar al hacer hover
+                dropdown.addEventListener('mouseenter', function () {
+                    bootstrap.Dropdown.getOrCreateInstance(toggle).show();
+                });
+
+                // Ocultar al salir
+                dropdown.addEventListener('mouseleave', function (e) {
+                    // Verificar si el mouse se movió al dropdown-menu
+                    if (!menu.contains(e.relatedTarget)) {
+                        bootstrap.Dropdown.getOrCreateInstance(toggle).hide();
+                    }
+                });
+
+                // Permitir mantener el dropdown abierto si el mouse está en el menú
+                menu.addEventListener('mouseleave', function (e) {
+                    if (!dropdown.contains(e.relatedTarget)) {
+                        bootstrap.Dropdown.getOrCreateInstance(toggle).hide();
+                    }
+                });
+            });
+        });
+
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'es',
+                includedLanguages: 'en,es',
+            }, 'google_translate_element');
+        }
+    </script>
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script src="~/Scripts/chart.js"></script>
+
+</body>
+</html>

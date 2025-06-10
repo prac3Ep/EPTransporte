@@ -1,0 +1,377 @@
+﻿@model EPTransporte.Models.EditSalida
+
+@{
+    ViewBag.Title = "EditarSalida";
+}
+
+<h2 style="color:dodgerblue">Editar Salida EPL1</h2>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0"><i class="fas fa-edit"></i> Editar Registro de Salida</h4>
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm("GuardarEditar", "Salida", FormMethod.Post, new { role = "form", id = "editarForm", @class = "needs-validation", novalidate = "novalidate" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(d => d.IdSalida)
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <!-- Información General -->
+            <div class="form-section">
+                <h6 class="section-title">Información General</h6>
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        @Html.LabelFor(model => model.Folio, new { @class = "form-label fw-bold" })
+                        @Html.TextBoxFor(model => model.Folio, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-3">
+                        @Html.LabelFor(model => model.SucursalEP, new { @class = "form-label fw-bold" })
+                        @Html.DropDownListFor(model => model.SucursalEP, ViewBag.Sucursales as SelectList,
+                            "Seleccione sucursal", new { @class = "form-control", required = "required" })
+                        @Html.ValidationMessageFor(model => model.SucursalEP, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-3">
+                        @Html.LabelFor(model => model.Auditor, new { @class = "form-label fw-bold" })
+                        @Html.DropDownListFor(model => model.Auditor, ViewBag.Auditores as SelectList,
+                            "Seleccione un auditor", new { @class = "form-control", required = "required" })
+                        @Html.ValidationMessageFor(model => model.Auditor, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transporte -->
+            <div class="form-section">
+                <h6 class="section-title">Transporte</h6>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        @Html.LabelFor(model => model.Transportista, new { @class = "form-label fw-bold" })
+                        @Html.DropDownListFor(model => model.Transportista, ViewBag.Transportistas as SelectList,
+                            "Seleccione transportista", new { @class = "form-control", required = "required", id = "transportistaDropdown" })
+                        @Html.ValidationMessageFor(model => model.Transportista, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.LabelFor(model => model.Operador, new { @class = "form-label fw-bold" })
+                        @Html.DropDownListFor(model => model.Operador, ViewBag.Operadores as SelectList,
+                            "Seleccione operador", new { @class = "form-control", required = "required", id = "operadorDropdown" })
+                        @Html.ValidationMessageFor(model => model.Operador, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.LabelFor(model => model.Economico, new { @class = "form-label fw-bold" })
+                        @Html.DropDownListFor(model => model.Economico, ViewBag.Economicos as SelectList,
+                            "Seleccione económico", new { @class = "form-control", required = "required", id = "economicoDropdown" })
+                        @Html.ValidationMessageFor(model => model.Economico, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detalles de Carga -->
+            <div class="form-section">
+                <h6 class="section-title">Detalles de Carga</h6>
+
+                <!-- Primera fila -->
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.NumCaja, new { @class = "form-label" })
+                            @Html.TextBoxFor(model => model.NumCaja, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            @Html.CheckBoxFor(model => model.LocalViaje, new { @class = "form-check-input" })
+                            @Html.LabelFor(model => model.LocalViaje, new { @class = "form-check-label" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            @Html.CheckBoxFor(model => model.Cabina, new { @class = "form-check-input" })
+                            @Html.LabelFor(model => model.Cabina, new { @class = "form-check-label" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            @Html.CheckBoxFor(model => model.Cargado, new { @class = "form-check-input" })
+                            @Html.LabelFor(model => model.Cargado, new { @class = "form-check-label" })
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Segunda fila-->
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.NumSello, new { @class = "form-label" })
+                            @Html.TextBoxFor(model => model.NumSello, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            @Html.CheckBoxFor(model => model.Expo, new { @class = "form-check-input" })
+                            @Html.LabelFor(model => model.Expo, new { @class = "form-check-label" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            @Html.CheckBoxFor(model => model.Caja, new { @class = "form-check-input", id = "cajaCheckbox" })
+                            @Html.LabelFor(model => model.Caja, new { @class = "form-check-label" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            @Html.CheckBoxFor(model => model.Vacio, new { @class = "form-check-input" })
+                            @Html.LabelFor(model => model.Vacio, new { @class = "form-check-label" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mt-4">
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-save"></i> Guardar Cambios
+                </button>
+                <a href="@Url.Action("Index")" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Cancelar
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <!-- SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- SweetAlert JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Mostrar/ocultar campos de caja
+            $('#cajaCheckbox').change(function() {
+                if ($(this).is(':checked')) {
+                    $('#cajaFields').show();
+                } else {
+                    $('#cajaFields').hide();
+                    $('#NumCaja').val('');
+                    $('#NumSello').val('');
+                }
+            });
+
+            // Cargar operadores y económicos cuando cambia el transportista
+            $('#transportistaDropdown').change(function() {
+                var transportistaNombre = $(this).val();
+                resetAndLoadDropdowns(transportistaNombre);
+            });
+
+            // Validar el formulario antes de enviar
+            $('#editarForm').submit(function(e) {
+                e.preventDefault();
+
+                // Resetear validación
+                $('.form-control').removeClass('is-invalid');
+                let isValid = true;
+                let errorFields = [];
+
+                // 1. Validar campos requeridos básicos
+                const requiredFields = [
+                    { id: '#SucursalEP', name: 'Sucursal' },
+                    { id: '#Auditor', name: 'Auditor' },
+                    { id: '#transportistaDropdown', name: 'Transportista' },
+                    { id: '#operadorDropdown', name: 'Operador' },
+                    { id: '#economicoDropdown', name: 'Económico' }
+                ];
+
+                requiredFields.forEach(function(field) {
+                    if (!$(field.id).val()) {
+                        $(field.id).addClass('is-invalid');
+                        errorFields.push(field.name);
+                        isValid = false;
+                    }
+                });
+
+                // 2. Validar al menos un checkbox seleccionado
+                const checkboxes = $('.form-section:eq(2)').find('input[type="checkbox"]');
+                let atLeastOneChecked = false;
+
+                checkboxes.each(function() {
+                    if ($(this).is(':checked')) {
+                        atLeastOneChecked = true;
+                        return false;
+                    }
+                });
+
+                if (!atLeastOneChecked) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Por favor seleccione al menos una opción en los checkboxes de Detalles de Carga.',
+                        confirmButtonText: 'Entendido'
+                    });
+                    isValid = false;
+                }
+
+                // Si hay errores, mostrar alerta
+                if (!isValid) {
+                    let errorMessage = 'Por favor complete los siguientes campos:';
+
+                    if (errorFields.length > 0) {
+                        errorMessage += '\n\n- ' + errorFields.join('\n- ');
+                    }
+
+                    if (!atLeastOneChecked) {
+                        errorMessage += '\n\n- Seleccione al menos un checkbox en Detalles de Carga';
+                    }
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Validación incompleta',
+                        text: errorMessage,
+                        confirmButtonText: 'Entendido'
+                    });
+                    return false;
+                }
+
+                // Si todo está válido, enviar formulario
+                Swal.fire({
+                    title: 'Procesando...',
+                    html: 'Actualizando registro de salida',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                        // Enviar formulario después de mostrar el loader
+                        document.getElementById('editarForm').submit();
+                    }
+                });
+            });
+
+            // Función para resetear y cargar los dropdowns
+            function resetAndLoadDropdowns(transportistaNombre) {
+                // Resetear los dropdowns primero
+                $('#operadorDropdown').html('<option value="">Seleccione operador</option>');
+                $('#economicoDropdown').html('<option value="">Seleccione económico</option>');
+
+                if (transportistaNombre) {
+                    // Cargar operadores
+                    cargarOperadores(transportistaNombre);
+
+                    // Cargar económicos
+                    cargarEconomicos(transportistaNombre);
+                }
+            }
+            // Función para cargar operadores
+function cargarOperadores(transportistaNombre) {
+    $('#operadorDropdown').prop('disabled', true).html('<option value="">Cargando operadores...</option>');
+
+    $.ajax({
+        url: '@Url.Action("GetOperadoresByTransportistaNombre", "Salida")',
+        type: 'GET',
+        data: { transportistaNombre: transportistaNombre },
+        dataType: 'json',
+        success: function(response) {
+            var items = '<option value="">Seleccione operador</option>';
+            if (response && !response.error) {
+                $.each(response, function(i, operador) {
+                    items += '<option value="' + operador.Nombre + '">' + operador.Nombre + '</option>';
+                });
+            } else {
+                items = '<option value="">No hay operadores disponibles</option>';
+                if (response.error) {
+                    console.error('Error:', response.error);
+                }
+            }
+            $('#operadorDropdown').html(items).prop('disabled', false);
+
+            // Decodificar el operador actual antes de comparar
+            function decodeHtml(html) {
+                var txt = document.createElement("textarea");
+                txt.innerHTML = html;
+                return txt.value;
+            }
+            var currentOperador = decodeHtml('@Model.Operador').trim().toLowerCase();
+            if (currentOperador) {
+                $('#operadorDropdown option').each(function() {
+                    if ($(this).val().trim().toLowerCase() === currentOperador) {
+                        $(this).prop('selected', true);
+                    }
+                });
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al cargar operadores:', status, error);
+            $('#operadorDropdown').html('<option value="">Error al cargar operadores</option>').prop('disabled', false);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No se pudieron cargar los operadores',
+                confirmButtonText: 'Entendido'
+            });
+        }
+    });
+}
+    // Función para cargar económicos
+function cargarEconomicos(transportistaNombre) {
+    $('#economicoDropdown').prop('disabled', true).html('<option value="">Cargando económicos...</option>');
+
+    $.ajax({
+        url: '@Url.Action("GetEconomicosByTransportistaNombre", "Salida")',
+        type: 'GET',
+        data: { transportistaNombre: transportistaNombre },
+        dataType: 'json',
+        success: function(response) {
+            var items = '<option value="">Seleccione económico</option>';
+            if (response && !response.error) {
+                $.each(response, function(i, economico) {
+                    items += '<option value="' + economico.Nombre + '">' + economico.Nombre + '</option>';
+                });
+            } else {
+                items = '<option value="">No hay económicos disponibles</option>';
+                if (response.error) {
+                    console.error('Error:', response.error);
+                }
+            }
+            $('#economicoDropdown').html(items).prop('disabled', false);
+
+            // Decodificar el económico actual antes de comparar
+            function decodeHtml(html) {
+                var txt = document.createElement("textarea");
+                txt.innerHTML = html;
+                return txt.value;
+            }
+            var currentEconomico = decodeHtml('@Model.Economico').trim().toLowerCase();
+            if (currentEconomico) {
+                $('#economicoDropdown option').each(function() {
+                    if ($(this).val().trim().toLowerCase() === currentEconomico) {
+                        $(this).prop('selected', true);
+                    }
+                });
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al cargar económicos:', status, error);
+            $('#economicoDropdown').html('<option value="">Error al cargar económicos</option>').prop('disabled', false);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No se pudieron cargar los económicos',
+                confirmButtonText: 'Entendido'
+            });
+        }
+    });
+}
+
+
+
+
+
+
+            // Cargar operadores y económicos al inicio si ya hay un transportista seleccionado
+            var initialTransportista = $('#transportistaDropdown').val();
+            if (initialTransportista) {
+                cargarOperadores(initialTransportista);
+                cargarEconomicos(initialTransportista);
+            }
+        });
+    </script>
+}

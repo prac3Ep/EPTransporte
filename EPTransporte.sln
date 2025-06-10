@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35919.96 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPTransporte", "EPTransporte\EPTransporte.csproj", "{1E457442-AA52-43D8-9FC1-F94AD4B23D3C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1E457442-AA52-43D8-9FC1-F94AD4B23D3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E457442-AA52-43D8-9FC1-F94AD4B23D3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E457442-AA52-43D8-9FC1-F94AD4B23D3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E457442-AA52-43D8-9FC1-F94AD4B23D3C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {02927990-5E6F-4DAC-8004-1D1BBBA62086}
+	EndGlobalSection
+EndGlobal

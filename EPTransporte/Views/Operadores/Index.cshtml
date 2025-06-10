@@ -1,0 +1,297 @@
+﻿@model EPTransporte.Models.OperadorViewModel
+
+@{
+    ViewBag.Title = "Gestión de Operadores";
+    var operadoresList = ViewBag.OperadoresList as IEnumerable<EPTransporte.Models.Operador> ?? new List<EPTransporte.Models.Operador>();
+}
+
+<div class="admin-container">
+    <h2 class="page-title">
+        <i class="fas fa-id-card-alt mr-2"></i>@ViewBag.Title
+    </h2>
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">
+                <i class="fas @(Model.Id > 0 ? "fa-user-edit" : "fa-user-plus") mr-2"></i>
+                @(Model.Id > 0 ? "Editar Operador" : "Nuevo Operador")
+            </h4>
+        </div>
+        <div class="card-body p-4">
+            @using (Html.BeginForm("Save", "Operadores", FormMethod.Post,
+                   new { @class = "needs-validation", novalidate = "novalidate", id = "operadorForm" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.Id)
+
+                <div class="row">
+                    <div class="col-md-6 pr-md-4">
+                        <div class="form-section mb-4">
+                            <h5 class="section-title">
+                                <i class="fas fa-user mr-2"></i>Información Personal
+                            </h5>
+
+                            <div class="form-group">
+                                <div class="form-floating mb-3">
+                                    @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", placeholder = "Nombre completo" })
+                                    @Html.LabelFor(model => model.Nombre, "Nombre completo")
+                                    @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "invalid-feedback" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-floating mb-3">
+                                    @Html.TextBoxFor(model => model.Licencia, new { @class = "form-control", placeholder = "Número de licencia" })
+                                    @Html.LabelFor(model => model.Licencia, "Número de Licencia")
+                                    @Html.ValidationMessageFor(model => model.Licencia, "", new { @class = "invalid-feedback" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 pl-md-4">
+                        <div class="form-section mb-4">
+                            <h5 class="section-title">
+                                <i class="fas fa-briefcase mr-2"></i>Información Laboral
+                            </h5>
+
+                            <div class="form-group">
+                                <div class="form-floating mb-3">
+                                    @Html.DropDownListFor(model => model.IdTransportista,
+                                        new SelectList(Model.TransportistasDisponibles, "Id", "EmpresaContratista", Model.IdTransportista),
+                                        "Seleccione un transportista",
+                                        new { @class = "form-select" })
+                                    @Html.LabelFor(model => model.IdTransportista, "Transportista")
+                                    @Html.ValidationMessageFor(model => model.IdTransportista, "", new { @class = "invalid-feedback" })
+                                </div>
+                            </div>
+
+                            <div class="form-group" hidden="hidden">
+                                <div class="form-check form-switch">
+                                    @Html.CheckBoxFor(model => model.Habilitado, new { @class = "form-check-input", role = "switch" })
+                                    @Html.LabelFor(model => model.Habilitado, "Habilitado", new { @class = "form-check-label" })
+                                    @Html.ValidationMessageFor(model => model.Habilitado, "", new { @class = "invalid-feedback" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions mt-4 pt-3 border-top">
+                    <div class="d-flex justify-content-between">
+                        @if (Model.Id > 0)
+                        {
+                            <a href="@Url.Action("Index")" class="btn btn-outline-primary">
+                                <i class="fas fa-plus-circle mr-2"></i>Nuevo
+                            </a>
+                        }
+                        else
+                        {
+                            <div></div>
+                        }
+
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="fas fa-save mr-2"></i>@(Model.Id > 0 ? "Actualizar" : "Guardar")
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Tabla de operadores -->
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h4 class="mb-0">
+                <i class="fas fa-list mr-2"></i>Listado de Operadores
+            </h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped" id="operadoresTable">
+                    <thead class="thead-light">
+                        <tr>
+                            <th><i class="fas fa-user mr-2"></i>Nombre</th>
+                            <th><i class="fas fa-id-card mr-2"></i>Licencia</th>
+                            <th><i class="fas fa-truck mr-2"></i>Transportista</th>
+                            <th><i class="fas fa-power-off mr-2"></i>Estado</th>
+                            <th><i class="fas fa-cogs mr-2"></i>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in operadoresList)
+                        {
+                            <tr>
+                                <td>@item.Nombre</td>
+                                <td>@item.Licencia</td>
+                                <td>@item.NombreTransportista</td>
+                                <td>
+                                    <span class="badge @(item.Habilitado ? "badge-success" : "badge-danger")">
+                                        @(item.Habilitado ? "Activo" : "Inactivo")
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-sm btn-warning">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <button data-user-id="@item.Id" class="btn btn-sm toggle-status-btn @(item.Habilitado ? "btn-danger" : "btn-success")">
+                                            <i class="fas @(item.Habilitado ? "fa-user-slash" : "fa-user-check")"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(document).on('click', '.toggle-status-btn', function() {
+                var operadorId = $(this).data('user-id');
+                var button = $(this);
+
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: "¿Deseas cambiar el estado de este operador?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, cambiar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var token = $('input[name="__RequestVerificationToken"]').val();
+
+                        // Mostrar loader
+                        Swal.fire({
+                            title: 'Procesando...',
+                            html: 'Por favor espere',
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+
+                        $.ajax({
+                            url: '@Url.Action("ToggleStatus", "Operadores")/' + operadorId,
+                            type: 'POST',
+                            headers: {
+                                'RequestVerificationToken': token
+                            },
+                            data: {
+                                id: operadorId,
+                                __RequestVerificationToken: token
+                            },
+                            success: function(response) {
+                                Swal.close();
+                                if (response.success) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: '¡Éxito!',
+                                        text: response.message,
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    }).then(() => {
+                                        location.reload();
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error',
+                                        text: response.message
+                                    });
+                                }
+                            },
+                            error: function(xhr) {
+                                Swal.close();
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'Error al comunicarse con el servidor'
+                                });
+                                console.error(xhr.responseText);
+                            }
+                        });
+                    }
+                });
+            });
+
+            // Validación remota de licencia
+            $('#Licencia').on('blur', function() {
+                validarLicenciaUnica();
+            });
+
+            // Inicialización de DataTable
+            $('#operadoresTable').DataTable({
+                responsive: true,
+                language: {
+                    url: '@Url.Content("~/Content/DataTables/Spanish.json")'
+                },
+                columnDefs: [
+                    {
+                        orderable: false,
+                        targets: [4]
+                    },
+                    {
+                        className: "dt-left",
+                        targets: [1]
+                    }
+                ],
+                order: [[3, 'asc']]
+            });
+
+            // Validación del formulario con SweetAlert
+            $('form').on('submit', function(e) {
+                var $form = $(this);
+
+                if (!$form.valid()) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error de validación',
+                        text: 'Por favor, complete todos los campos requeridos correctamente.'
+                    });
+                    $form.addClass('was-validated');
+                    return false;
+                }
+
+                Swal.fire({
+                    title: 'Procesando...',
+                    html: 'Por favor espere',
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                return true;
+            });
+        });
+
+        function validarLicenciaUnica() {
+            const licencia = $('#Licencia').val();
+            const id = $('#Id').val() || 0;
+
+            if (licencia.length > 0) {
+                $.get('@Url.Action("ValidarLicenciaUnica", "Operadores")', {
+                    licencia: licencia,
+                    id: id
+                }, function(response) {
+                    const licenciaError = $('#licencia-error');
+                    if (!response) {
+                        licenciaError.text('Esta licencia ya está registrada');
+                        $('#Licencia').addClass('is-invalid');
+                    } else {
+                        licenciaError.text('');
+                        $('#Licencia').removeClass('is-invalid');
+                    }
+                });
+            }
+        }
+    </script>
+}

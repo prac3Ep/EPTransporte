@@ -1,0 +1,332 @@
+﻿@model EPTransporte.Models.UsuarioViewModel
+
+@{
+    ViewBag.Title = "Gestión de Usuarios";
+    var usuariosList = ViewBag.UsuariosList as IEnumerable<EPTransporte.Models.Usuario> ?? new List<EPTransporte.Models.Usuario>();
+}
+
+<div class="admin-container">
+    <h2 class="page-title">
+        <i class="fas fa-users-cog mr-2"></i>@ViewBag.Title
+    </h2>
+
+
+    <!-- Formulario de creación/edición -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">
+                <i class="fas @(Model.Id > 0 ? "fa-user-edit" : "fa-user-plus") mr-2"></i>
+                @(Model.Id > 0 ? "Editar Usuario" : "Nuevo Usuario")
+            </h4>
+        </div>
+        <div class="card-body p-4">
+            @using (Html.BeginForm("Save", "Usuarios", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.Id)
+
+                <div class="row">
+                    <!-- Columna izquierda - Datos básicos -->
+                    <div class="col-md-6 pr-md-4">
+                        <div class="form-section mb-4">
+                            <h5 class="section-title">
+                                <i class="fas fa-id-card mr-2"></i>Información Básica
+                            </h5>
+
+                            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger", style = "display: none;" })
+                            <div class="form-group">
+                                <div class="form-floating mb-3">
+                                    @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", placeholder = "Nombre completo" })
+                                    @Html.LabelFor(model => model.Nombre, "Nombre completo")
+                                    @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "invalid-feedback" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-floating mb-3">
+                                    @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", placeholder = "Nombre de usuario" })
+                                    @Html.LabelFor(model => model.UserName, "Nombre de usuario")
+                                    @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "invalid-feedback" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-floating mb-3">
+                                    @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Contraseña" })
+                                    @Html.LabelFor(model => model.Password, "Contraseña")
+                                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "invalid-feedback" })
+                                    <small class="form-text text-muted">
+                                        @(Model.Id > 0 ? "Dejar en blanco para mantener la contraseña actual" : "Mínimo 6 caracteres")
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-floating mb-3">
+                                    @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control", placeholder = "Confirmar contraseña" })
+                                    @Html.LabelFor(model => model.ConfirmPassword, "Confirmar contraseña")
+                                    @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "invalid-feedback" })
+                                    <small class="form-text text-muted">
+                                        @(Model.Id > 0 ? "Solo completar si desea cambiar la contraseña" : "Repita la contraseña")
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Columna derecha - Sucursales -->
+                    <div class="col-md-6 pl-md-4">
+                        <div class="form-section mb-4">
+                            <h5 class="section-title">
+                                <i class="fas fa-store mr-2"></i>Asignación de Sucursales
+                            </h5>
+
+                            <div class="scrollable-container">
+                                @if (Model.SucursalesDisponibles != null && Model.SucursalesDisponibles.Any())
+                                {
+                                    <div class="list-group">
+                                        @foreach (var sucursal in Model.SucursalesDisponibles)
+                                        {
+                                            <label class="list-group-item list-group-item-action">
+                                                <div class="form-check">
+                                                    <input class="form-check-input"
+                                                           type="checkbox"
+                                                           name="SucursalesSeleccionadas"
+                                                           value="@sucursal.Id"
+                                                           id="sucursal_@sucursal.Id"
+                                                           @(Model.SucursalesSeleccionadas != null && Model.SucursalesSeleccionadas.Contains(sucursal.Id) ? "checked" : "") />
+                                                    <div class="form-check-content">
+                                                        <span class="d-block font-weight-bold">@sucursal.SitioEP</span>
+                                                        <small class="text-muted">@sucursal.Ubicacion</small>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        }
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-warning">
+                                        <i class="fas fa-exclamation-circle mr-2"></i>No hay sucursales disponibles
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    @if (Model.Id > 0)
+                    {
+                        <a href="@Url.Action("Index")" class="btn btn-outline-primary">
+                            <i class="fas fa-plus-circle mr-2"></i>Nuevo
+                        </a>
+                    }
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save mr-2"></i>@(Model.Id > 0 ? "Actualizar" : "Guardar")
+                    </button>
+                </div>
+
+                @Html.HiddenFor(model => model.Activo)
+            }
+        </div>
+    </div>
+
+    <!-- Tabla de usuarios -->
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h4 class="mb-0">
+                <i class="fas fa-list mr-2"></i>Listado de Usuarios
+            </h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped" id="usuariosTable">
+                    <thead class="thead-light header-tabla">
+                        <tr>
+                            <th><i class="fas fa-user-tag mr-2"></i>Nombre</th>
+                            <th><i class="fas fa-user mr-2"></i>Usuario</th>
+                            <th><i class="fas fa-store mr-2"></i>Sucursales</th>
+                            <th><i class="fas fa-calendar-alt mr-2"></i>Fecha Creación</th>
+                            <th><i class="fas fa-power-off mr-2"></i>Estado</th>
+                            <th><i class="fas fa-cogs mr-2"></i>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in usuariosList)
+                        {
+                            <tr>
+                                <td>@item.Nombre</td>
+                                <td>@item.UserName</td>
+                                <td>
+                                    @if (item.Sucursales != null && item.Sucursales.Any())
+                                    {
+                                        <ul class="list-unstyled mb-0">
+                                            @foreach (var sucursal in item.Sucursales)
+                                            {
+                                                <li>@sucursal.SitioEP</li>
+                                            }
+                                        </ul>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">Ninguna</span>
+                                    }
+                                </td>
+                                <td>@item.FechaCreacion.ToString("dd/MM/yyyy")</td>
+                                <td>
+                                    <span class="badge @(item.Activo ? "badge-success" : "badge-danger")">
+                                        @(item.Activo ? "Activo" : "Inactivo")
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-sm btn-warning">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <button data-user-id="@item.Id" class="btn btn-sm toggle-status-btn @(item.Activo ? "btn-danger" : "btn-success")">
+                                            <i class="fas @(item.Activo ? "fa-user-slash" : "fa-user-check")"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(document).on('click', '.toggle-status-btn', function() {
+                var userId = $(this).data('user-id');
+                var button = $(this);
+
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: "¿Deseas cambiar el estado de este usuario?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, cambiar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var token = $('input[name="__RequestVerificationToken"]').val();
+
+                        // Mostrar loader
+                        Swal.fire({
+                            title: 'Procesando...',
+                            html: 'Por favor espere',
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+
+                        $.ajax({
+                            url: '@Url.Action("ToggleStatus", "Usuarios")/' + userId,
+                            type: 'POST',
+                            headers: {
+                                'RequestVerificationToken': token
+                            },
+                            data: {
+                                id: userId,
+                                __RequestVerificationToken: token
+                            },
+                            success: function(response) {
+                                Swal.close();
+                                if (response.success) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: '¡Éxito!',
+                                        text: response.message,
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    }).then(() => {
+                                        location.reload();
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error',
+                                        text: response.message
+                                    });
+                                }
+                            },
+                            error: function(xhr) {
+                                Swal.close();
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'Error al comunicarse con el servidor'
+                                });
+                                console.error(xhr.responseText);
+                            }
+                        });
+                    }
+                });
+            });
+
+            // Resto de tus funciones (validación, DataTable, etc.)
+            $('#ConfirmPassword').on('keyup', function() {
+                var password = $('#Password').val();
+                var confirmPassword = $(this).val();
+
+                if (password !== confirmPassword) {
+                    $(this).addClass('is-invalid');
+                    $(this).next('.invalid-feedback').show();
+                } else {
+                    $(this).removeClass('is-invalid');
+                    $(this).next('.invalid-feedback').hide();
+                }
+            });
+
+            try {
+                $('#usuariosTable').DataTable({
+                    responsive: true,
+                    language: {
+                        url: '@Url.Content("~/Content/DataTables/Spanish.json")'
+                    },
+                    columnDefs: [{
+                        orderable: false,
+                        targets: [5],
+                        className: 'dt-center'
+                    }],
+                    order: [[4, 'asc']]
+                });
+            } catch(e) {
+                console.error("Error al inicializar DataTables:", e);
+            }
+
+            $('form').on('submit', function(e) {
+                var $form = $(this);
+
+                if (!$form.valid()) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error de validación',
+                        text: 'Por favor, complete todos los campos requeridos correctamente.'
+                    });
+                    $form.addClass('was-validated');
+                    return false;
+                }
+
+                Swal.fire({
+                    title: 'Procesando...',
+                    html: 'Por favor espere',
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                return true;
+            });
+        });
+    </script>
+}

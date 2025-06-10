@@ -1,0 +1,159 @@
+﻿<div class="container-fluid">
+    <!-- Hero Section -->
+    <div class="row align-items-center hero-section" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../../imagen/fondo.png'); background-size: cover; min-height: 400px;">
+        <div class="col-md-8 mx-auto text-center text-white py-5">
+            <h1 class="display-4">Bienvenido a TransporteEP</h1>
+            <p class="lead">Sistema de gestión de transporte</p>
+        </div>
+    </div>
+
+    <!-- Accesos Rápidos -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <h3 class="mb-4"><i class="fas fa-bolt me-2"></i>Accesos Rápidos</h3>
+        </div>
+
+        <div class="col-md-3 col-6 mb-4">
+            <a href="@Url.Action("addSalida", "Salida")" class="card quick-access-card text-center text-decoration-none">
+                <div class="card-body">
+                    <i class="fas fa-plus-circle fa-3x azulclaro mb-3"></i>
+                    <h5>Nuevo Pase</h5>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3 col-6 mb-4">
+            <a href="@Url.Action("Index", "Salida")" class="card quick-access-card text-center text-decoration-none">
+                <div class="card-body">
+                    <i class="fas fa-list-check fa-3x azul mb-3"></i>
+                    <h5>Ver Pases De Salida</h5>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3 col-6 mb-4">
+            <a href="@Url.Action("Index", "Entrada")" class="card quick-access-card text-center text-decoration-none">
+                <div class="card-body">
+                    <i class="fas fa-truck-moving fa-3x morado mb-3"></i>
+                    <h5>Entradas</h5>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3 col-6 mb-4">
+            <a href="@Url.Action("Index", "EntradaGeneral")" class="card quick-access-card text-center text-decoration-none">
+                <div class="card-body">
+                    <i class="fas fa-truck fa-3x gris mb-3"></i>
+                    <h5>Entradas Generales</h5>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Noticias/Actualizaciones -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <i class="fas fa-bullhorn me-2"></i> Últimas Noticias
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        <div class="list-group-item">
+                            <h5>Nueva actualización del sistema</h5>
+                            <p class="mb-1">Hemos implementado mejoras en el módulo de reportes teniendo una mejora en la automatizacion.</p>
+                            <small class="text-muted">Publicado el 04/06/2025</small>
+                        </div>
+                        <div class="list-group-item">
+                            <h5>Nuevos modulos!</h5>
+                            <p class="mb-1">Hemos implementado nuevos modulos de registro para la gestion de:</p>
+                            <ul>
+                                <li>Usuarios</li>
+                                <li>Sucursales</li>
+                                <li>Transportistas</li>
+                                <li>Economicos</li>
+                                <li>Operadores</li>
+                            </ul>
+                            <small class="text-muted">Publicado el 04/06/2025</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estadísticas Breves Mejoradas -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <i class="fas fa-chart-pie me-2"></i> Estadísticas del Sistema
+                </div>
+                <div class="card-body">
+                    <div class="row text-center mb-3">
+                        <div class="col-4">
+                            <i class="fas fa-calendar-day fa-2x morado mb-2"></i>
+                            <h4>@ViewBag.PasesHoy</h4>
+                            <p class="text-muted mb-0">Pases Hoy</p>
+                        </div>
+                        <div class="col-4">
+                            <i class="fas fa-calendar-week fa-2x azul mb-2"></i>
+                            <h4>@ViewBag.PasesSemana</h4>
+                            <p class="text-muted mb-0">Pases Semana</p>
+                        </div>
+                        <div class="col-4">
+                            <i class="fas fa-calendar-alt fa-2x azulclaro mb-2"></i>
+                            <h4>@ViewBag.PasesMes</h4>
+                            <p class="text-muted mb-0">Pases Mes</p>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row text-center mb-3">
+                        <div class="col-6">
+                            <i class="fas fa-user-tie fa-2x text-info mb-2"></i>
+                            <h5>@ViewBag.TransportistasActivos</h5>
+                            <p class="text-muted">Transportistas</p>
+                        </div>
+                        <div class="col-6">
+                            <i class="fas fa-truck-moving fa-2x text-secondary mb-2"></i>
+                            <h5>@ViewBag.VehiculosDisponibles</h5>
+                            <p class="text-muted">Vehículos</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-3">
+                        <p class="mb-1">Progreso mensual de pases objetivo</p>
+                        <div class="progress" style="height: 20px;">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: @ViewBag.ProgresoMes%" aria-valuenow="@ViewBag.ProgresoMes" aria-valuemin="0" aria-valuemax="100">
+                                @ViewBag.ProgresoMes%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<style>
+    .hero-section {
+        border-radius: 8px;
+        overflow: hidden;
+        margin-top: 20px;
+    }
+
+    .quick-access-card {
+        transition: transform 0.3s, box-shadow 0.3s;
+        height: 100%;
+    }
+
+        .quick-access-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+    .card-body {
+        color:black;
+    }
+</style>

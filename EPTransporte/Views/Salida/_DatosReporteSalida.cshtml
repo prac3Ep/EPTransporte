@@ -1,0 +1,48 @@
+﻿@model List<EPTransporte.Models.DatosSalidaReporte>
+
+<div class="col-sm-12 table-responsive table-condensed table-sm" style="font-size:small">
+    <table class="table table-hover" id="Articulos">
+        @if (Model != null)
+            {
+        <thead class="thead-light">
+            <tr bgcolor="Gray">
+                <th style="color:white;">Folio</th>
+                <th style="color:white;">Sucursal</th>
+                <th style="color:white;">Transportista</th>
+                <th style="color:white;">Operador</th>
+                <th style="color:white;">Económico</th>
+                <th style="color:white;">Fecha Captura</th>
+                <th style="color:white;">Fecha Salida</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+                    {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Folio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sucursal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Transportista)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Operador)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Economico)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaCaptura)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaSalida)
+                </td>
+            </tr>
+                    }
+        </tbody>
+            }
+    </table>
+</div>

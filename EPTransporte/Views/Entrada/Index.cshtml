@@ -1,0 +1,157 @@
+﻿@model IEnumerable<EPTransporte.Models.DatosEntrada>
+
+@{
+    ViewBag.Title = "Entradas";
+}
+
+<h2 class="mb-4">
+    <i class="fas fa-sign-out-alt text-primary me-2"></i> Registros de Entradas
+</h2>
+
+<!-- Tarjeta principal -->
+<div class="card shadow-sm rounded mb-4">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">
+            <i class="fas fa-list-alt me-2"></i> Listado de Entradas
+        </h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped" id="EntradasTabla">
+                @if (Model != null && Model.Any())
+                {
+                    <thead class="thead-dark">
+                        <tr>
+                            <th><i class="fa-solid fa-hashtag"></i>No.Entrada</th>
+                            <th><i class="fas fa-truck-moving me-1"></i> Económico</th>
+                            <th><i class="fas fa-warehouse me-1"></i> Transportista</th>
+                            <th style="width: 150px;"><i class="fas fa-tools me-1"></i> Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.IdPaseEntrada</td>
+                                <td>@item.Economico</td>
+                                <td>@item.Transportista</td>
+                                <td>
+                                    @*<a href="@Url.Content("~/Entrada/EditarEntrada/" + item.IdPaseEntrada)" class="btn btn-warning btn-sm" title="Editar">
+                <i class="fas fa-edit"></i>
+            </a>*@
+                                    <button data-entrada-id="@item.IdPaseEntrada" class="btn btn-danger btn-sm delete-btn" title="Eliminar">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="text-center">
+                            <i class="fas fa-exclamation-circle text-muted me-1"></i> No hay registros disponibles.
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Manejo del botón de eliminar
+            $(document).on('click', '.delete-btn', function () {
+                var entradaId = $(this).data('entrada-id');
+                var button = $(this);
+
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: "¡No podrás revertir esta acción!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var token = $('input[name="__RequestVerificationToken"]').val();
+
+                        // Mostrar loader
+                        Swal.fire({
+                            title: 'Eliminando...',
+                            html: 'Por favor espere',
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+
+                        $.ajax({
+                            url: '@Url.Content("~/Entrada/BorrarEntrada/")' + entradaId,
+                            type: 'POST',
+                            headers: {
+                                'RequestVerificationToken': token
+                            },
+                            data: {
+                                __RequestVerificationToken: token
+                            },
+                            success: function (response) {
+                                Swal.close();
+                                if (response == "1") {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: '¡Eliminado!',
+                                        text: 'El registro ha sido eliminado.',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    }).then(() => {
+                                        location.reload();
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error',
+                                        text: 'Ocurrió un error al eliminar el registro.'
+                                    });
+                                }
+                            },
+                            error: function (xhr) {
+                                Swal.close();
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'Error al comunicarse con el servidor'
+                                });
+                                console.error(xhr.responseText);
+                            }
+                        });
+                    }
+                });
+            });
+
+            // Inicialización de DataTable
+            $('#EntradasTabla').DataTable({
+                responsive: true,
+                language: {
+                    url: '@Url.Content("~/Content/DataTables/Spanish.json")'
+                },
+                columnDefs: [
+                    {
+                        className: 'dt-left', // Esto alineará el contenido a la izquierda
+                        targets: [0]
+                    },
+                    {
+                        orderable: false,
+                        targets: [3]
+                    }
+                ],
+                order: [[0, 'desc']]
+            });
+        });
+    </script>
+}

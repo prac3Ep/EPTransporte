@@ -1,0 +1,404 @@
+﻿@model EPTransporte.Models.addSalida
+
+@{
+    ViewBag.Title = "Generar Salida EPL1";
+}
+
+<h2 class="page-title"><i class="fas fa-sign-out-alt"></i> Generar Salida EPL1</h2>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0"><i class="fas fa-truck"></i> Nuevo Registro de Salida</h5>
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm("addSalida", "Salida", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate", id = "salidaForm" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <!-- Información General -->
+            <div class="form-section">
+                <h6 class="section-title"><i class="fas fa-info-circle text-primary me-1"></i> Información General</h6>
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold"><i class="fas fa-hashtag me-1"></i> Folio</label>
+                        @Html.TextBoxFor(model => model.Folio, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold"><i class="fas fa-map-marker-alt me-1"></i> Sucursal</label>
+                        @Html.DropDownListFor(model => model.SucursalEP, ViewBag.Sucursales as SelectList,
+                            "Seleccione sucursal", new { @class = "form-control", required = "required" })
+                        @Html.ValidationMessageFor(model => model.SucursalEP, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold"><i class="fas fa-user-check me-1"></i> Auditor</label>
+                        @Html.DropDownListFor(model => model.Auditor, ViewBag.Auditores as SelectList,
+                            "Seleccione un auditor", new { @class = "form-control", required = "required" })
+                        @Html.ValidationMessageFor(model => model.Auditor, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transporte -->
+            <div class="form-section">
+                <h6 class="section-title"><i class="fas fa-shuttle-van text-primary me-1"></i> Transporte</h6>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold"><i class="fas fa-truck-moving me-1"></i> Transportista</label>
+                        @Html.DropDownListFor(model => model.IdTransportista, ViewBag.Transportistas as SelectList,
+                            "Seleccione transportista", new { @class = "form-control", required = "required", id = "transportistaDropdown" })
+                        @Html.ValidationMessageFor(model => model.IdTransportista, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold"><i class="fas fa-id-badge me-1"></i> Operador</label>
+                        <select id="operadorDropdown" name="IdOperador" class="form-control" required>
+                            <option value="">Seleccione operador</option>
+                        </select>
+                        @Html.ValidationMessageFor(model => model.IdOperador, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold"><i class="fas fa-truck-pickup me-1"></i> Económico</label>
+                        <select id="economicoDropdown" name="IdEconomico" class="form-control" required>
+                            <option value="">Seleccione económico</option>
+                        </select>
+                        @Html.ValidationMessageFor(model => model.IdEconomico, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detalles de Carga -->
+            <div class="form-section">
+                <h6 class="section-title"><i class="fas fa-boxes text-primary me-1"></i> Detalles de Carga</h6>
+
+                <!-- Primera fila -->
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="form-label"><i class="fas fa-box me-1"></i> Caja</label>
+                            @Html.TextBoxFor(model => model.NumCaja, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            @Html.CheckBoxFor(model => model.LocalViaje, new { @class = "form-check-input" })
+                            <label class="form-check-label"><i class="fas fa-route me-1"></i> Local</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            @Html.CheckBoxFor(model => model.Cabina, new { @class = "form-check-input" })
+                            <label class="form-check-label"><i class="fas fa-door-closed me-1"></i> Cabina</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            @Html.CheckBoxFor(model => model.Cargado, new { @class = "form-check-input" })
+                            <label class="form-check-label"><i class="fas fa-dolly me-1"></i> Cargado</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Segunda fila-->
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="form-label"><i class="fas fa-lock me-1"></i> Sello</label>
+                            @Html.TextBoxFor(model => model.NumSello, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            @Html.CheckBoxFor(model => model.Expo, new { @class = "form-check-input" })
+                            <label class="form-check-label"><i class="fas fa-flag me-1"></i> Exportación</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            @Html.CheckBoxFor(model => model.Caja, new { @class = "form-check-input", id = "cajaCheckbox" })
+                            <label class="form-check-label"><i class="fas fa-box-open me-1"></i> Caja</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            @Html.CheckBoxFor(model => model.Vacio, new { @class = "form-check-input" })
+                            <label class="form-check-label"><i class="fas fa-inbox me-1"></i> Vacío</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group mt-4">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Guardar Salida
+                </button>
+                <a href="@Url.Action("Index")" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Cancelar
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <!-- SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- SweetAlert JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Mostrar/ocultar campos de caja
+            $('#cajaCheckbox').change(function() {
+                if ($(this).is(':checked')) {
+                    $('#cajaFields').show();
+                } else {
+                    $('#cajaFields').hide();
+                    $('#NumCaja').val('');
+                    $('#NumSello').val('');
+                }
+            });
+
+            // Cargar operadores y económicos cuando cambia el transportista
+            $('#transportistaDropdown').change(function() {
+                var transportistaId = $(this).val();
+                resetAndLoadDropdowns(transportistaId);
+            });
+
+            // Manejador único para el submit del formulario
+            $('#salidaForm').submit(function(e) {
+                e.preventDefault();
+
+                // Resetear validación
+                $('.form-control').removeClass('is-invalid');
+                let isValid = true;
+                let errorFields = [];
+
+                // 1. Validar campos requeridos básicos
+                const requiredFields = [
+                    { id: '#SucursalEP', name: 'Sucursal' },
+                    { id: '#Auditor', name: 'Auditor' },
+                    { id: '#transportistaDropdown', name: 'Transportista' },
+                    { id: '#operadorDropdown', name: 'Operador' },
+                    { id: '#economicoDropdown', name: 'Económico' }
+                ];
+
+                requiredFields.forEach(function(field) {
+                    if (!$(field.id).val()) {
+                        $(field.id).addClass('is-invalid');
+                        errorFields.push(field.name);
+                        isValid = false;
+                    }
+                });
+
+                // 2. Validar al menos un checkbox seleccionado
+                const checkboxes = $('.form-section:eq(2)').find('input[type="checkbox"]');
+                let atLeastOneChecked = false;
+
+                checkboxes.each(function() {
+                    if ($(this).is(':checked')) {
+                        atLeastOneChecked = true;
+                        return false; // Rompe el bucle
+                    }
+                });
+
+                if (!atLeastOneChecked) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Por favor seleccione al menos una opción en los checkboxes de Detalles de Carga.',
+                        confirmButtonText: 'Entendido'
+                    });
+                    isValid = false;
+                }
+
+                // Si hay errores, mostrar alerta
+                if (!isValid) {
+                    let errorMessage = 'Por favor complete los siguientes campos:';
+                    if (errorFields.length > 0) {
+                        errorMessage += '\n\n- ' + errorFields.join('\n- ');
+                    }
+                    if (!atLeastOneChecked) {
+                        errorMessage += '\n\n- Seleccione al menos un checkbox en Detalles de Carga';
+                    }
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Validación incompleta',
+                        text: errorMessage,
+                        confirmButtonText: 'Entendido'
+                    });
+                    return false;
+                }
+
+                // 3. Mostrar confirmación con animación
+                Swal.fire({
+                    title: 'Confirmar Registro de Salida',
+                    html: `
+                        <div class="text-center">
+                            <img src="../../imagen/camion.png" alt="Camión de transporte"
+                                style="width: 100%; height: auto; margin-bottom: 15px; animation: moveBus 2s infinite;">
+                            <p>¿Estás seguro que deseas registrar la salida del transporte?</p>
+                            <p><strong>Folio:</strong> ${$('#Folio').val()}</p>
+                            <p><strong>Auditor:</strong> ${$('#Auditor').val()}</p>
+                            <p><strong>Sucursal:</strong> ${$('#SucursalEP').val()}</p>
+
+                        </div>
+                    `,
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: '<i class="fas fa-check-circle"></i> Confirmar',
+                    cancelButtonText: '<i class="fas fa-times-circle"></i> Cancelar',
+                    customClass: {
+                        popup: 'animated bounceIn'
+                    },
+                    willOpen: () => {
+                        // Agregar animación CSS para el autobús
+                        const style = document.createElement('style');
+                        style.innerHTML = `
+                            @@keyframes moveBus {
+                                0% { transform: translateX(-10px); }
+                                50% { transform: translateX(10px); }
+                                100% { transform: translateX(-10px); }
+                            }
+                        `;
+                        document.head.appendChild(style);
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Mostrar loader mientras se procesa
+                        Swal.fire({
+                            title: 'Registrando Salida',
+                            html: 'Por favor espera...',
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                                // Enviar el formulario
+                                document.getElementById('salidaForm').submit();
+                            }
+                        });
+                    }
+                });
+            });
+
+            // Función para resetear y cargar los dropdowns
+            function resetAndLoadDropdowns(transportistaId) {
+                // Resetear los dropdowns primero
+                $('#operadorDropdown').html('<option value="">Seleccione operador</option>');
+                $('#economicoDropdown').html('<option value="">Seleccione económico</option>');
+
+                if (transportistaId) {
+                    // Cargar operadores
+                    cargarOperadores(transportistaId);
+
+                    // Cargar económicos
+                    cargarEconomicos(transportistaId);
+                }
+            }
+
+            // Función para cargar operadores
+            function cargarOperadores(transportistaId) {
+                $('#operadorDropdown').prop('disabled', true).html('<option value="">Cargando operadores...</option>');
+
+                $.ajax({
+                    url: '@Url.Action("GetOperadoresByTransportista", "Salida")',
+                    type: 'GET',
+                    data: { idTransportista: transportistaId },
+                    dataType: 'json',
+                    success: function(response) {
+                        var items = '<option value="">Seleccione operador</option>';
+
+                        if (response && response.length > 0) {
+                            $.each(response, function(i, operador) {
+                                items += '<option value="' + operador.Id + '">' + operador.NombreOperador + '</option>';
+                            });
+                        } else {
+                            items = '<option value="">No hay operadores disponibles</option>';
+                        }
+
+                        $('#operadorDropdown').html(items).prop('disabled', false);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error al cargar operadores:', status, error);
+                        $('#operadorDropdown').html('<option value="">Error al cargar operadores</option>').prop('disabled', false);
+                        mostrarErrorSweetAlert('No se pudieron cargar los operadores');
+                    }
+                });
+            }
+
+            // Función para cargar económicos
+            function cargarEconomicos(transportistaId) {
+                $('#economicoDropdown').prop('disabled', true).html('<option value="">Cargando económicos...</option>');
+
+                $.ajax({
+                    url: '@Url.Action("GetEconomicosByTransportista", "Salida")',
+                    type: 'GET',
+                    data: { idTransportista: transportistaId },
+                    dataType: 'json',
+                    success: function(response) {
+                        var items = '<option value="">Seleccione económico</option>';
+
+                        if (response && response.length > 0) {
+                            $.each(response, function(i, economico) {
+                                items += '<option value="' + economico.Id + '">' + economico.Economico + '</option>';
+                            });
+                        } else {
+                            items = '<option value="">No hay económicos disponibles</option>';
+                        }
+
+                        $('#economicoDropdown').html(items).prop('disabled', false);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error al cargar económicos:', status, error);
+                        $('#economicoDropdown').html('<option value="">Error al cargar económicos</option>').prop('disabled', false);
+                        mostrarErrorSweetAlert('No se pudieron cargar los económicos');
+                    }
+                });
+            }
+
+            // Función para mostrar errores con SweetAlert
+            function mostrarErrorSweetAlert(mensaje) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: mensaje,
+                    confirmButtonText: 'Entendido'
+                });
+            }
+
+            // Si hay un valor seleccionado en el transportista al cargar la página, cargar los dropdowns
+            var initialTransportistaId = $('#transportistaDropdown').val();
+            if (initialTransportistaId) {
+                resetAndLoadDropdowns(initialTransportistaId);
+            }
+
+            // Estilos adicionales para la alerta
+            const style = document.createElement('style');
+            style.innerHTML = `
+                .swal2-popup .swal2-actions {
+                    margin-top: 1.5rem;
+                }
+                .swal2-popup .swal2-content {
+                    font-size: 1.1rem;
+                }
+                .swal2-popup .swal2-title {
+                    position: relative;
+                    padding-bottom: 15px;
+                }
+                .swal2-popup .swal2-title:after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 25%;
+                    width: 50%;
+                    height: 2px;
+                    background: linear-gradient(to right, transparent, #3085d6, transparent);
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+}

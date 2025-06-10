@@ -1,0 +1,871 @@
+﻿/* Set padding to keep content from hitting the edges */
+.body-content {
+    margin-top: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists
+   will truncate terms that are too long to fit in the left column
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.sidebar {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    width: 220px;
+    height: 100vh;
+    background-color: #e8e8e8;
+    box-shadow: 2px 0 12px rgba(0,0,0,0.08);
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+    z-index: 1000;
+}
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .sidebar .nav-link {
+        color: #161c40;
+        margin: 8px 0;
+        padding: 10px 20px;
+        font-size: 1.1em;
+        transition: background 0.2s, color 0.2s;
+        width: 100%;
+        text-align: left;
+    }
+
+        .sidebar .nav-link.active, .sidebar .nav-link:hover {
+            background-color: #021649;
+            color: #ffff;
+        }
+
+    .sidebar img {
+        margin: 24px 0 32px 0;
+        max-width: 100%;
+        border-radius: 8px;
+        padding: 8px;
+    }
+
+.main-content {
+    transition: margin-left 0.3s;
+    margin: 20px;
+}
+
+    .main-content.shifted {
+        margin-left: 230px;
+    }
+
+.imageen img {
+    margin: 24px 0 32px 0;
+    max-width: 100%;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1100;
+}
+
+body {
+    padding-top: 56px;
+}
+
+/* Estilo para botones con iconos */
+.btn i {
+    padding-right: 0.8rem;
+}
+
+/* Estilo para iconos en general (si necesitas más control) */
+.fas, .far, .fa {
+    padding: 0 0.55rem;
+}
+
+/* Estilo específico para botones de acciones */
+.btn-action i {
+    padding-right: 0.8rem;
+    padding-left: 0.35rem;
+}
+
+/* Estilos generales para la administración */
+.admin-container {
+    padding: 20px;
+}
+
+.page-title {
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-weight: 600;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+}
+
+/* Estilos para tarjetas */
+.card {
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+    .card:hover {
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    }
+
+.card-header {
+    padding: 15px 20px;
+    font-weight: 600;
+    background-color: #021649;
+    color:white;
+}
+
+    .card-header.bg-primary {
+        background-color: #3498db !important;
+    }
+
+.card-body {
+    padding: 25px;
+}
+
+/* Secciones de formulario */
+.form-section {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    border-left: 4px solid #3498db;
+}
+
+.section-title {
+    color: #3498db;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* Formularios */
+.form-floating > label {
+    padding: 0.5rem 0.75rem;
+    color: #6c757d;
+}
+
+.form-control {
+    border-radius: 4px;
+    padding: 10px 15px;
+    border: 1px solid #ced4da;
+}
+
+    .form-control:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+    }
+
+.invalid-feedback {
+    font-size: 0.85rem;
+}
+
+/* Listas y elementos scrollables */
+.scrollable-container {
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+    .scrollable-container::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .scrollable-container::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+
+    .scrollable-container::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 10px;
+    }
+
+        .scrollable-container::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+.list-group-item {
+    transition: all 0.2s;
+    margin-bottom: 5px;
+    border-radius: 4px !important;
+    border: 1px solid #dee2e6;
+}
+
+    .list-group-item:hover {
+        background-color: #f0f7ff;
+        border-color: #3498db;
+    }
+
+.form-check {
+    display: flex;
+    align-items: center;
+}
+
+.form-check-input {
+    margin-right: 10px;
+    margin-top: 0;
+}
+
+.form-check-content {
+    flex: 1;
+}
+
+/* Botones y acciones */
+.btn {
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background-color: #3498db;
+    border-color: #3498db;
+}
+
+
+
+.btn-outline-primary {
+    color: #3498db;
+    border-color: #3498db;
+}
+
+.btn-group .btn {
+    padding: 5px 10px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    margin-top: 20px;
+}
+
+/* Tablas */
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+}
+
+    .table thead th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #dee2e6;
+        background-color: #f8f9fa;
+        font-weight: 600;
+    }
+
+.table-hover tbody tr:hover {
+    background-color: rgba(52, 152, 219, 0.05);
+}
+
+/* Badges */
+.badge {
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 0.8rem;
+}
+
+.badge-success {
+    background-color: #1E82FC;
+}
+
+.badge-danger {
+    background-color: gray;
+}
+
+/* Alertas */
+.alert {
+    border-radius: 4px;
+    padding: 12px 20px;
+    margin-bottom: 20px;
+    border: none;
+}
+
+.alert-success {
+    background-color: #d5f5e3;
+    color: #27ae60;
+}
+
+.alert-danger {
+    background-color: #fadbd8;
+    color: #e74c3c;
+}
+
+.alert-warning {
+    background-color: #fdebd0;
+    color: #f39c12;
+}
+
+/* Oculta la barra superior del traductor */
+.goog-te-banner-frame.skiptranslate {
+    display: none !important;
+}
+
+/* Oculta el iframe del traductor */
+iframe.VIpgJd-ZVi9od-ORHb-OEVmcd {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Evita que el cuerpo de la página se mueva */
+body {
+    top: 0 !important;
+}
+
+/* Opcional: Oculta el espacio en blanco que podría quedar */
+.goog-te-gadget {
+    font-size: 0 !important;
+}
+
+/* Oculta los tooltips de calificación del traductor */
+.goog-te-tooltip {
+    display: none !important;
+}
+
+/* Oculta el tooltip de "Traducido por Google" */
+.goog-te-balloon-frame {
+    display: none !important;
+}
+
+/* Opcional: Mejora el estilo del selector */
+.goog-te-gadget-simple {
+    background-color: transparent !important;
+    border: none !important;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    margin-top: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists
+   will truncate terms that are too long to fit in the left column
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.sidebar {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    width: 220px;
+    height: 100vh;
+    background-color: #e8e8e8;
+    box-shadow: 2px 0 12px rgba(0,0,0,0.08);
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+    z-index: 1000;
+}
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .sidebar .nav-link {
+        color: #161c40;
+        margin: 8px 0;
+        padding: 10px 20px;
+        font-size: 1.1em;
+        transition: background 0.2s, color 0.2s;
+        width: 100%;
+        text-align: left;
+    }
+
+        .sidebar .nav-link.active, .sidebar .nav-link:hover {
+            background-color: #021649;
+            color: #ffff;
+        }
+
+    .sidebar img {
+        margin: 24px 0 32px 0;
+        max-width: 100%;
+        border-radius: 8px;
+        padding: 8px;
+    }
+
+.main-content {
+    transition: margin-left 0.3s;
+    margin: 20px;
+}
+
+    .main-content.shifted {
+        margin-left: 230px;
+    }
+
+.imageen img {
+    margin: 24px 0 32px 0;
+    max-width: 100%;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1100;
+}
+
+body {
+    padding-top: 56px;
+}
+
+/* Brand Colors from PowerPoint */
+:root {
+    --primary-color: #021649; /* PANTONE 299 U / RGB: 30, 130, 252 */
+    --primary-dark: #021649; /* PANTONE 280 U / RGB: 2, 27, 73 */
+    --secondary-color: #F13E53; /* PANTONE 206 U / RGB: 241, 62, 83 */
+    --accent-color: #66C0F1; /* PANTONE 297 U / RGB: 102, 192, 241 */
+    --light-bg: #F6F6F6; /* PANTONE 656 C / RGB: 246, 246, 246 */
+    --text-dark: #161c40; /* Dark text color from sidebar links */
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    margin-top: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists
+   will truncate terms that are too long to fit in the left column
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.sidebar {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    width: 220px;
+    height: 100vh;
+    background-color: var(--light-bg); /* Updated to brand light color */
+    box-shadow: 2px 0 12px rgba(0,0,0,0.08);
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+    z-index: 1000;
+}
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .sidebar .nav-link {
+        color: var(--text-dark); /* Updated to brand dark text color */
+        margin: 8px 0;
+        padding: 10px 20px;
+        font-size: 1.1em;
+        transition: background 0.2s, color 0.2s;
+        width: 100%;
+        text-align: left;
+    }
+
+        .sidebar .nav-link.active, .sidebar .nav-link:hover {
+            background-color: var(--primary-color); /* Updated to brand primary color */
+            color: white;
+        }
+
+    .sidebar img {
+        margin: 24px 0 32px 0;
+        max-width: 100%;
+        border-radius: 8px;
+        padding: 8px;
+    }
+
+.main-content {
+    transition: margin-left 0.3s;
+    margin: 20px;
+    background-color: white;
+}
+
+    .main-content.shifted {
+        margin-left: 230px;
+    }
+
+.imageen img {
+    margin: 24px 0 32px 0;
+    max-width: 100%;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1100;
+    background-color: var(--primary-dark); /* Updated to brand dark blue */
+}
+
+.navbar-brand, .navbar-nav .nav-link {
+    color: white !important;
+}
+
+body {
+    padding-top: 56px;
+    background-color: var(--light-bg); /* Updated to brand light color */
+}
+
+/* Estilo para botones con iconos */
+.btn i {
+    padding-right: 0.8rem;
+}
+
+/* Updated button styles to use brand colors */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+
+
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+
+
+
+
+
+
+/* Estilos generales para la administración */
+.admin-container {
+    padding: 20px;
+}
+
+.page-title {
+    color: var(--primary-dark);
+    margin-bottom: 25px;
+    font-weight: 600;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 10px;
+}
+
+/* Card styles updated with brand colors */
+.card {
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    background-color: rgba(2,22,73,0.1) !important;
+}
+
+.card-header.bg-primary {
+    background-color: var(--primary-color) !important;
+    color: white;
+}
+
+/* Form sections */
+.form-section {
+    background-color: var(--light-bg);
+    padding: 20px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    border-left: 4px solid var(--primary-color);
+}
+
+.section-title {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* Form controls */
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(30, 130, 252, 0.25);
+}
+
+/* Table hover effect */
+.table-hover tbody tr:hover {
+    background-color: rgba(102, 192, 241, 0.05); /* Using accent color with opacity */
+}
+
+/* Badges */
+.badge-primary {
+    background-color: var(--primary-color);
+}
+
+/* Alert colors */
+.alert-success {
+    background-color: #d5f5e3;
+    color: #27ae60;
+}
+
+.alert-danger {
+    background-color: #fadbd8;
+    color: var(--secondary-color);
+}
+
+.alert-warning {
+    background-color: #fdebd0;
+    color: #f39c12;
+}
+
+.alert-info {
+    background-color: rgba(102, 192, 241, 0.2); /* Using accent color */
+    color: var(--primary-dark);
+    border-left: 4px solid var(--accent-color);
+}
+
+/* Scrollbar styling */
+.scrollable-container::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+}
+
+    .scrollable-container::-webkit-scrollbar-thumb:hover {
+        background: var(--primary-dark);
+    }
+
+/* List group items */
+.list-group-item:hover {
+    background-color: rgba(102, 192, 241, 0.1); /* Light accent color */
+    border-color: var(--accent-color);
+}
+
+.custom-swal-container {
+    margin-top: 50000px !important; /* Ajusta este valor según necesites */
+}
+
+/* Ajusta la posición vertical de las notificaciones */
+.my-swal-container {
+    margin-top: 50px !important; /* Ajusta este valor según necesites */
+}
+
+/* O si prefieres un enfoque más general para todos los toasts de SweetAlert */
+.swal2-container.swal2-top-end > .swal2-popup {
+    margin-top: 50px !important;
+}
+
+.dt-orderable-asc, .dt-orderable-desc, .dt-orderable-none {
+    background-color: #66C0F1 !important;
+    color: black !important;
+}
+.btn-primary {
+    background-color: #021649 !important;
+    border-color: #021649 !important;
+}
+
+.btn-secondary {
+    background-color: #66C0F1 !important;
+    color: #021649 !important;
+}
+
+.btn-danger {
+    background-color: gray !important;
+    border-color:black !important;
+}
+    .btn-danger:hover {
+        background-color: #F13E53 !important;
+        border-color: black !important;
+    }
+
+
+
+
+
+.card {
+    border: 1px solid #e0e0e0 !important; /* Borde sutil */
+    background: white !important; /* Fondo limpio */
+}
+
+.card-header {
+    background-color: #021649 !important;
+    color: white !important;
+}
+
+.table thead th {
+    background-color: #f8f9fa !important;
+    color: #021649 !important;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(102, 192, 241, 0.1) !important; /* Azul claro muy suave */
+}
+
+.btn-success {
+    background-color: #1E82FC;
+    border-color:black;
+}
+
+.btn-warning {
+    background-color: #021649;
+    border-color:black;
+    color:white;
+}
+
+    .btn-warning:hover {
+        background-color: #66C0F1;
+        border-color: black;
+        color: white;
+    }
+
+.btn {
+    margin:5px;
+}
+
+.swal2-confirm {
+    background-color: #1E82FC;
+}
+
+    .swal2-confirm:hover {
+        background-color: #021649;
+    }
+
+
+/* Cambia el ícono de éxito (palomita) a azul */
+.swal2-icon.swal2-success {
+    color: #3498db !important; /* Azul */
+    border-color: #3498db !important;
+}
+
+/* Cambia las líneas de la palomita */
+.swal2-success-line-tip,
+.swal2-success-line-long {
+    background-color: #3498db !important;
+}
+
+/* Cambia el anillo de fondo */
+.swal2-success-ring {
+    border-color: rgba(52, 152, 219, 0.3) !important; /* Azul con transparencia */
+}
+
+.swal2-icon.swal2-warning {
+    color: #3498db !important; /* Azul */
+    border-color: #3498db !important;
+}
+
+.swal2-warning-line-tip,
+.swal2-warning-line-long {
+    background-color: #3498db !important;
+}
+
+.swal2-warning-ring {
+    border-color: rgba(52, 152, 219, 0.3) !important; /* Azul con transparencia */
+}
+
+
+
+
+.btn-warning:focus{
+        background-color: black !important; /* Un tono más oscuro para hover/focus */
+        border-color: black !important;
+    }
+
+
+.btn-success:hover {
+    background-color:gray;
+}
+
+.main-content {
+    transition: margin-left 0.3s;
+    margin: 20px;
+}
+
+    .main-content.shifted {
+        margin-left: 230px;
+    }
+
+
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-container {
+    display: flex;
+    flex: 1;
+    position: relative;
+}
+
+.sidebar {
+    height: calc(100vh - 56px);
+    overflow-y: auto;
+}
+
+.main-content {
+    flex: 1;
+    transition: margin-left 0.3s;
+}
+
+footer {
+    background-color: #f8f9fa;
+    text-align: center;
+    margin-top: auto; /* Empuja el footer hacia abajo */
+}
+
+.gris {
+    color:gray;
+}
+
+.morado {
+    color: #021649;
+}
+
+.azul {
+    color: #1E82FC;
+}
+
+.azulclaro{
+    color: #66C0F1;
+}
+
+
+.btn:focus {
+    background-color: #1E82FC;
+}
