@@ -62,13 +62,11 @@ namespace EPTransporte.Controllers
         {
             try
             {
-                // Recargar datos necesarios para la vista
                 model.TransportistasDisponibles = ObtenerTransportistasDisponibles();
                 ViewBag.OperadoresList = GetOperadores();
 
                 if (ModelState.IsValid)
                 {
-                    // Validación de licencia requerida
                     if (string.IsNullOrWhiteSpace(model.Licencia))
                     {
                         ModelState.AddModelError("Licencia", "El número de licencia es requerido");

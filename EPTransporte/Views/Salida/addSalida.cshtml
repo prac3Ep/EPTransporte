@@ -4,7 +4,7 @@
     ViewBag.Title = "Generar Salida EPL1";
 }
 
-<h2 class="page-title"><i class="fas fa-sign-out-alt"></i> Generar Salida EPL1</h2>
+<h2 class="page-title"><i class="fas fa-sign-out-alt"></i> Generar Salida</h2>
 
 <div class="card shadow-sm">
     <div class="card-header bg-primary text-white">
@@ -141,12 +141,18 @@
     </div>
 </div>
 
+<style>
+
+    h5 {
+        color:white !important;
+    }
+
+
+</style>
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <!-- SweetAlert CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <!-- SweetAlert JS -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     <script>
         $(document).ready(function() {
@@ -238,8 +244,9 @@
                     title: 'Confirmar Registro de Salida',
                     html: `
                         <div class="text-center">
-                            <img src="../../imagen/camion.png" alt="Camión de transporte"
-                                style="width: 100%; height: auto; margin-bottom: 15px; animation: moveBus 2s infinite;">
+<img src="../../imagen/camion-removebg-preview.png" alt="Camión de transporte"
+     style="width: 100%; height: auto; margin-bottom: 15px; animation: moveBus 2s infinite;
+            mix-blend-mode: multiply; filter: contrast(1.1);">
                             <p>¿Estás seguro que deseas registrar la salida del transporte?</p>
                             <p><strong>Folio:</strong> ${$('#Folio').val()}</p>
                             <p><strong>Auditor:</strong> ${$('#Auditor').val()}</p>

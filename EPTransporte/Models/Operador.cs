@@ -10,9 +10,13 @@ namespace EPTransporte.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "El nombre es requerido")]
+        [RegularExpression(@"^(?!\s*$).+", ErrorMessage = "No puede contener solo espacios en blanco")]
+
         public string Nombre { get; set; }
 
         [Required(ErrorMessage = "Debe ingresar una licencia")]
+        [RegularExpression(@"^(?!\s*$).+", ErrorMessage = "No puede contener solo espacios en blanco")]
+
         public string Licencia { get; set; }
 
         public bool Habilitado { get; set; }

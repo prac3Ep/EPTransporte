@@ -2327,6 +2327,9 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="imagen\camion-removebg-preview.png" />
+    <Content Include="imagen\camion.jpg" />
+    <Content Include="imagen\camion.png" />
     <Content Include="imagen\camionfondo.png" />
     <Content Include="imagen\EP blanco.png" />
     <Content Include="imagen\EPFondoBarco.png" />

@@ -102,6 +102,16 @@
     <script>
         $(document).ready(function () {
 
+            $('#EmpresaContratista').on('input', function () {
+                if ($.trim($(this).val()) === '') {
+                    $(this).addClass('is-invalid');
+                    $(this).next('.invalid-feedback').text('Este campo no puede estar vacío o contener solo espacios').show();
+                } else {
+                    $(this).removeClass('is-invalid');
+                    $(this).next('.invalid-feedback').hide();
+                }
+            });
+
             // Manejar clic en botones de cambio de estado (similar al de usuarios)
             $(document).on('click', '.toggle-estado', function() {
                 var transportistaId = $(this).data('id');

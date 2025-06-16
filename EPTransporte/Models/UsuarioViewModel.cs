@@ -8,10 +8,14 @@ namespace EPTransporte.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "El nombre es requerido")]
+        [RegularExpression(@"^(?!\s*$).+", ErrorMessage = "No puede contener solo espacios en blanco")]
         public string Nombre { get; set; }
 
         [Required(ErrorMessage = "El nombre de usuario es requerido")]
+        [RegularExpression(@"^(?!\s*$).+", ErrorMessage = "No puede contener solo espacios en blanco")]
+
         public string UserName { get; set; }
+        [RegularExpression(@"^(?!\s*$).+", ErrorMessage = "No puede contener solo espacios en blanco")]
 
         [DataType(DataType.Password)]
         [Display(Name = "Contraseña")]

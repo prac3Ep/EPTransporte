@@ -25,7 +25,7 @@
                             <th><i class="fa-solid fa-hashtag"></i>No.Entrada</th>
                             <th><i class="fas fa-truck-moving me-1"></i> Económico</th>
                             <th><i class="fas fa-warehouse me-1"></i> Transportista</th>
-                            <th style="width: 150px;"><i class="fas fa-tools me-1"></i> Acciones</th>
+                            <th style="width: 150px;" class="text-center"><i class="fas fa-tools me-1"></i> Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -35,10 +35,7 @@
                                 <td>@item.IdPaseEntrada</td>
                                 <td>@item.Economico</td>
                                 <td>@item.Transportista</td>
-                                <td>
-                                    @*<a href="@Url.Content("~/Entrada/EditarEntrada/" + item.IdPaseEntrada)" class="btn btn-warning btn-sm" title="Editar">
-                <i class="fas fa-edit"></i>
-            </a>*@
+                                <td class="text-center">
                                     <button data-entrada-id="@item.IdPaseEntrada" class="btn btn-danger btn-sm delete-btn" title="Eliminar">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
@@ -59,6 +56,12 @@
         </div>
     </div>
 </div>
+
+<style>
+    h5 {
+        color: white !important;
+    }
+</style>
 
 @section Scripts {
     <script>

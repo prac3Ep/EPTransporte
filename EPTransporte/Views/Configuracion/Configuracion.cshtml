@@ -3,57 +3,244 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container py-5">
-    <h2 class="text-primary mb-4"><i class="fas fa-cog me-2"></i>Configuración</h2>
+<div class="container py-3 py-md-5">
+    <h2 class="text-primary mb-3 mb-md-4"><i class="fas fa-cog me-2"></i>Configuración</h2>
 
-    <div class="card shadow-lg mt-4 border-0">
-        <div class="card-header bg-gradient-primary text-white">
-            <h4 class="mb-0"><i class="fas fa-language me-2"></i>Idioma / Language</h4>
+    <!-- Sección de Modo Oscuro -->
+    <div class="card shadow-lg mb-3 mb-md-4 border-0">
+        <div class="card-header bg-gradient-secondary text-white">
+            <h4 class="mb-0"><i class="fas fa-moon me-2"></i>Apariencia</h4>
         </div>
-        <div class="card-body p-4">
-            <div class="row align-items-center">
-                <div class="col-md-8">
-                    <div id="google_translate_element" class="w-100"></div>
+        <div class="card-body p-3 p-md-4">
+            <div class="theme-switch-wrapper d-flex flex-column flex-md-row align-items-center justify-content-between">
+                <div class="d-flex align-items-center mb-2 mb-md-0">
+                    <i class="fas fa-sun me-2"></i> Modo Claro
                 </div>
-                <div class="col-md-4 text-center">
-                    <i class="fas fa-globe-americas text-primary" style="font-size: 3rem;"></i>
+                <label class="theme-switch mx-2">
+                    <input type="checkbox" id="theme-toggle">
+                    <span class="slider round">
+                        <span class="icons">
+                            <i class="fas fa-sun"></i>
+                            <i class="fas fa-moon"></i>
+                        </span>
+                    </span>
+                </label>
+                <div class="d-flex align-items-center mt-2 mt-md-0">
+                    <i class="fas fa-moon me-2"></i> Modo Oscuro
                 </div>
             </div>
-            <p class="mt-3 text-secondary fst-italic">
-                <i class="fas fa-info-circle me-2"></i>Selecciona tu idioma preferido / Select your preferred language
+            <p class="mt-3 text-secondary fst-italic small">
+                <i class="fas fa-info-circle me-2"></i>Cambia entre modo claro y oscuro según tus preferencias
             </p>
         </div>
     </div>
 
-    @*<div class="card shadow-lg mt-4 border-0">
-            <div class="card-header bg-gradient-secondary text-white">
-                <h4 class="mb-0"><i class="fas fa-palette me-2"></i>Preferencias de Tema</h4>
-            </div>
-            <div class="card-body p-4">
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="darkModeSwitch">
-                    <label class="form-check-label" for="darkModeSwitch">Modo Oscuro</label>
+    <!-- Sección de Idioma -->
+    <div class="card shadow-lg mt-3 mt-md-4 border-0">
+        <div class="card-header bg-gradient-primary text-white">
+            <h4 class="mb-0"><i class="fas fa-language me-2"></i>Idioma / Language</h4>
+        </div>
+        <div class="card-body p-3 p-md-4">
+            <div class="row align-items-center">
+                <div class="col-md-8 mb-3 mb-md-0">
+                    <div id="google_translate_element" class="w-100"></div>
+                </div>
+                <div class="col-md-4 text-center d-none d-md-block">
+                    <i class="fas fa-globe-americas text-primary" style="font-size: 3rem;"></i>
                 </div>
             </div>
-        </div>*@
+            <p class="mt-3 text-secondary fst-italic small">
+                <i class="fas fa-info-circle me-2"></i>Selecciona tu idioma preferido / Select your preferred language
+            </p>
+        </div>
+    </div>
 </div>
 
 <style>
-    .bg-gradient-primary {
-        background: linear-gradient(135deg, #3a7bd5 0%, #00d2ff 100%);
+    /* Estilos mejorados para el interruptor de tema */
+    .theme-switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+        margin: 0 10px;
     }
 
-    .bg-gradient-secondary {
-        background: linear-gradient(135deg, #606c88 0%, #3f4c6b 100%);
-    }
-
-    .card {
-        border-radius: 15px;
-        overflow: hidden;
-        transition: transform 0.3s ease;
-    }
-
-        .card:hover {
-            transform: translateY(-5px);
+        .theme-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
         }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 34px;
+        width:70px;
+        height:auto;
+    }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 10px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        .slider .icons {
+            position: absolute;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            padding: 0 8px;
+            box-sizing: border-box;
+        }
+
+            .slider .icons i {
+                color: white;
+                z-index: 1;
+            }
+
+            .slider .icons .fa-moon {
+                opacity: 1;
+            }
+
+            .slider .icons .fa-sun {
+                opacity: 0;
+            }
+
+    .theme-switch input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+        .theme-switch input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .theme-switch input:checked + .slider .icons .fa-moon {
+            opacity: 0;
+        }
+
+        .theme-switch input:checked + .slider .icons .fa-sun {
+            opacity: 1;
+        }
+
+
+
+
+    /* Estilos para el traductor de Google */
+    #google_translate_element .goog-te-combo {
+        width: 100% !important;
+        padding: 0.5rem;
+        border-radius: 4px;
+        border: 1px solid #ced4da;
+    }
+
+    .goog-te-gadget {
+        font-family: inherit !important;
+    }
+
+    .goog-te-gadget-simple {
+        background-color: #f8f9fa !important;
+        border: none !important;
+        padding: 8px !important;
+        border-radius: 4px !important;
+    }
+
+    .VIpgJd-ZVi9od-l4eHX-hSRGPd {
+        display: none;
+    }
+
+    /* Media queries para responsividad */
+    @@media (max-width: 768px) {
+        .theme-switch-wrapper {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .theme-switch {
+            margin: 10px 0;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .container {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+        }
+
+        h4 {
+            font-size: 1.2rem;
+        }
+    }
+
+
+
 </style>
+
+<script>
+    // Función mejorada para aplicar el tema
+    function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+
+        // Actualizar el estado del toggle
+        document.getElementById('theme-toggle').checked = theme === 'dark';
+
+        // Aplicar clases al body para el tema
+        if (theme === 'dark') {
+            document.body.classList.add('dark-theme');
+            document.body.classList.remove('light-theme');
+        } else {
+            document.body.classList.add('light-theme');
+            document.body.classList.remove('dark-theme');
+        }
+    }
+
+    // Detectar preferencia del sistema
+    function detectSystemTheme() {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        return prefersDark ? 'dark' : 'light';
+    }
+
+    // Cargar el tema al iniciar
+    document.addEventListener('DOMContentLoaded', function () {
+        const savedTheme = localStorage.getItem('theme') || detectSystemTheme();
+        applyTheme(savedTheme);
+
+        // Configurar el evento del interruptor
+        document.getElementById('theme-toggle').addEventListener('change', function () {
+            const newTheme = this.checked ? 'dark' : 'light';
+            applyTheme(newTheme);
+        });
+    });
+
+    // Escuchar cambios en la preferencia del sistema
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (!localStorage.getItem('theme')) { // Solo si no hay preferencia guardada
+            applyTheme(e.matches ? 'dark' : 'light');
+        }
+    });
+</script>

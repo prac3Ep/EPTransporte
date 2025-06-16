@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Data;
 using System.Web.Mvc;
 using EPTransporte.Clases;
+using EPTransporte.Models;
+
 
 namespace EPTransporte.Controllers
 {
@@ -11,28 +16,30 @@ namespace EPTransporte.Controllers
             int metaMensual = 200;
             int pasesEsteMes = ObtenerConteoPases(InicioMes(), FinMes());
             ViewBag.ProgresoMes = Math.Min(100, (int)((double)pasesEsteMes / metaMensual * 100));
-            ViewBag.ProgresoMes = Math.Min(100, (int)((double)pasesEsteMes / metaMensual * 100));
 
             try
             {
-                // Obtener estadísticas
                 ViewBag.PasesHoy = ObtenerConteoPases(DateTime.Today, DateTime.Today);
                 ViewBag.PasesSemana = ObtenerConteoPases(InicioSemana(), FinSemana());
                 ViewBag.PasesMes = ObtenerConteoPases(InicioMes(), FinMes());
 
-                // Obtener transportistas y vehículos activos
-                ViewBag.TransportistasActivos = ObtenerTransportistasActivos();
-                ViewBag.VehiculosDisponibles = ObtenerVehiculosDisponibles();
+
+                ViewBag.SalidasPendientes = ObtenerSalidasPendientes();
+                ViewBag.EntradasHoy = ObtenerEntradasHoy(DateTime.Today, DateTime.Today);
+
+                ViewBag.UltimasSalidas = conexion.ObtenerUltimasSalidas(3);
+                ViewBag.UltimasEntradas = conexion.ObtenerUltimasEntradas(3);
+
             }
             catch (Exception ex)
             {
-                // Registrar el error pero no impedir que la vista se muestre
                 System.Diagnostics.Trace.TraceError($"Error al cargar datos del dashboard: {ex.Message}");
             }
 
             return View();
         }
 
+       
         private int ObtenerConteoPases(DateTime fechaInicio, DateTime fechaFin)
         {
             string query = "SELECT COUNT(*) FROM Salidas WHERE FechaCreacion BETWEEN @FechaInicio AND @FechaFin";
@@ -40,15 +47,30 @@ namespace EPTransporte.Controllers
                                                           new System.Data.SqlClient.SqlParameter("@FechaFin", fechaFin.AddDays(1).AddSeconds(-1))));
         }
 
-        private int ObtenerTransportistasActivos()
+        private int ObtenerEntradasNormalesHoy(DateTime fechaInicio, DateTime fechaFin)
         {
-            string query = "SELECT COUNT(*) FROM Transportistas WHERE Habilitado = 1";
-            return Convert.ToInt32(conexion.EjecutarEscalar(query));
+            string query = "SELECT COUNT(*) FROM Entradas WHERE FechaEntrada BETWEEN @FechaInicio AND @FechaFin";
+            return Convert.ToInt32(conexion.EjecutarEscalar(query, new System.Data.SqlClient.SqlParameter("@FechaInicio", fechaInicio),
+                                                          new System.Data.SqlClient.SqlParameter("@FechaFin", fechaFin.AddDays(1).AddSeconds(-1))));
         }
 
-        private int ObtenerVehiculosDisponibles()
+        private int ObtenerEntradasGeneralesHoy(DateTime fechaInicio, DateTime fechaFin)
         {
-            string query = "SELECT COUNT(*) FROM Economicos WHERE Habilitado = 1";
+            string query = "SELECT COUNT(*) FROM EntradasGenerales WHERE FechaEntrada BETWEEN @FechaInicio AND @FechaFin";
+            return Convert.ToInt32(conexion.EjecutarEscalar(query, new System.Data.SqlClient.SqlParameter("@FechaInicio", fechaInicio),
+                                                          new System.Data.SqlClient.SqlParameter("@FechaFin", fechaFin.AddDays(1).AddSeconds(-1))));
+        }
+
+        private int ObtenerEntradasHoy(DateTime fechaInicio, DateTime fechaFin)
+        {
+            int entradasNormales = ObtenerEntradasNormalesHoy(fechaInicio, fechaFin);
+            int entradasGenerales = ObtenerEntradasGeneralesHoy(fechaInicio, fechaFin);
+            return entradasNormales + entradasGenerales;
+        }
+
+        private int ObtenerSalidasPendientes()
+        {
+            string query = "SELECT COUNT(*) FROM Salidas WHERE FechaCreacion = FechaSalida";
             return Convert.ToInt32(conexion.EjecutarEscalar(query));
         }
 

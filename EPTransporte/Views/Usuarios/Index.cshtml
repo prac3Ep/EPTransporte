@@ -201,6 +201,34 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
+            //$('#Nombre').on('input', function () {
+            //    var regex = /^[a-zA-ZñÑ\s]*$/;
+            //    var input = $(this).val();
+
+            //    if (!regex.test(input)) {
+            //        // Eliminar caracteres no permitidos
+            //        $(this).val(input.replace(/[^a-zA-ZñÑ\s]/g, ''));
+
+            //        // Mostrar feedback visual
+            //        $(this).addClass('is-invalid');
+            //        $(this).next('.invalid-feedback').text('Solo se permiten letras y números').show();
+
+            //        // Mostrar alerta SweetAlert
+            //        Swal.fire({
+            //            icon: 'error',
+            //            title: 'Caracter no permitido',
+            //            text: 'Solo se permiten letras en el nombre.',
+            //            confirmButtonText: 'Entendido'
+            //        });
+            //    } else {
+            //        $(this).removeClass('is-invalid');
+            //        $(this).next('.invalid-feedback').hide();
+            //    }
+
+            //});
+
+
+
             $(document).on('click', '.toggle-status-btn', function() {
                 var userId = $(this).data('user-id');
                 var button = $(this);
@@ -303,6 +331,16 @@
                 console.error("Error al inicializar DataTables:", e);
             }
 
+            $('#Nombre, #UserName, #Password').on('input', function () {
+                if ($.trim($(this).val()) === '') {
+                    $(this).addClass('is-invalid');
+                    $(this).next('.invalid-feedback').text('Este campo no puede estar vacío o contener solo espacios').show();
+                } else {
+                    $(this).removeClass('is-invalid');
+                    $(this).next('.invalid-feedback').hide();
+                }
+            });
+
             $('form').on('submit', function(e) {
                 var $form = $(this);
 
@@ -328,5 +366,6 @@
                 return true;
             });
         });
+
     </script>
 }

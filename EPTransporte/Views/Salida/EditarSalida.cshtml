@@ -4,7 +4,7 @@
     ViewBag.Title = "EditarSalida";
 }
 
-<h2 style="color:dodgerblue">Editar Salida EPL1</h2>
+<h2 style="color:dodgerblue"><i class="fas fa-sign-out-alt"></i> Editar Salida EPL1</h2>
 
 <div class="card shadow-sm">
     <div class="card-header bg-primary text-white">
@@ -19,22 +19,31 @@
 
             <!-- Información General -->
             <div class="form-section">
-                <h6 class="section-title">Información General</h6>
+                <h6 class="section-title"><i class="fas fa-info-circle text-primary me-1"></i> Información General</h6>
                 <div class="row mb-3">
                     <div class="col-md-3">
                         @Html.LabelFor(model => model.Folio, new { @class = "form-label fw-bold" })
-                        @Html.TextBoxFor(model => model.Folio, new { @class = "form-control", @readonly = "readonly" })
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-hashtag"></i></span>
+                            @Html.TextBoxFor(model => model.Folio, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
                     </div>
                     <div class="col-md-3">
                         @Html.LabelFor(model => model.SucursalEP, new { @class = "form-label fw-bold" })
-                        @Html.DropDownListFor(model => model.SucursalEP, ViewBag.Sucursales as SelectList,
-                            "Seleccione sucursal", new { @class = "form-control", required = "required" })
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                            @Html.DropDownListFor(model => model.SucursalEP, ViewBag.Sucursales as SelectList,
+                                "Seleccione sucursal", new { @class = "form-control", required = "required" })
+                        </div>
                         @Html.ValidationMessageFor(model => model.SucursalEP, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-md-3">
                         @Html.LabelFor(model => model.Auditor, new { @class = "form-label fw-bold" })
-                        @Html.DropDownListFor(model => model.Auditor, ViewBag.Auditores as SelectList,
-                            "Seleccione un auditor", new { @class = "form-control", required = "required" })
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-user-check"></i></span>
+                            @Html.DropDownListFor(model => model.Auditor, ViewBag.Auditores as SelectList,
+                                "Seleccione un auditor", new { @class = "form-control", required = "required" })
+                        </div>
                         @Html.ValidationMessageFor(model => model.Auditor, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -42,24 +51,33 @@
 
             <!-- Transporte -->
             <div class="form-section">
-                <h6 class="section-title">Transporte</h6>
+                <h6 class="section-title"><i class="fas fa-shuttle-van text-primary me-1"></i> Transporte</h6>
                 <div class="row mb-3">
                     <div class="col-md-4">
                         @Html.LabelFor(model => model.Transportista, new { @class = "form-label fw-bold" })
-                        @Html.DropDownListFor(model => model.Transportista, ViewBag.Transportistas as SelectList,
-                            "Seleccione transportista", new { @class = "form-control", required = "required", id = "transportistaDropdown" })
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-truck-moving"></i></span>
+                            @Html.DropDownListFor(model => model.Transportista, ViewBag.Transportistas as SelectList,
+                                "Seleccione transportista", new { @class = "form-control", required = "required", id = "transportistaDropdown" })
+                        </div>
                         @Html.ValidationMessageFor(model => model.Transportista, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-md-4">
                         @Html.LabelFor(model => model.Operador, new { @class = "form-label fw-bold" })
-                        @Html.DropDownListFor(model => model.Operador, ViewBag.Operadores as SelectList,
-                            "Seleccione operador", new { @class = "form-control", required = "required", id = "operadorDropdown" })
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-id-badge"></i></span>
+                            @Html.DropDownListFor(model => model.Operador, ViewBag.Operadores as SelectList,
+                                "Seleccione operador", new { @class = "form-control", required = "required", id = "operadorDropdown" })
+                        </div>
                         @Html.ValidationMessageFor(model => model.Operador, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-md-4">
                         @Html.LabelFor(model => model.Economico, new { @class = "form-label fw-bold" })
-                        @Html.DropDownListFor(model => model.Economico, ViewBag.Economicos as SelectList,
-                            "Seleccione económico", new { @class = "form-control", required = "required", id = "economicoDropdown" })
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-truck-pickup"></i></span>
+                            @Html.DropDownListFor(model => model.Economico, ViewBag.Economicos as SelectList,
+                                "Seleccione económico", new { @class = "form-control", required = "required", id = "economicoDropdown" })
+                        </div>
                         @Html.ValidationMessageFor(model => model.Economico, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -67,14 +85,17 @@
 
             <!-- Detalles de Carga -->
             <div class="form-section">
-                <h6 class="section-title">Detalles de Carga</h6>
+                <h6 class="section-title"><i class="fas fa-boxes text-primary me-1"></i> Detalles de Carga</h6>
 
                 <!-- Primera fila -->
                 <div class="row mb-3">
                     <div class="col-md-3">
                         <div class="form-group">
                             @Html.LabelFor(model => model.NumCaja, new { @class = "form-label" })
-                            @Html.TextBoxFor(model => model.NumCaja, new { @class = "form-control" })
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-box"></i></span>
+                                @Html.TextBoxFor(model => model.NumCaja, new { @class = "form-control" })
+                            </div>
                         </div>
                     </div>
 
@@ -82,18 +103,21 @@
                         <div class="form-check">
                             @Html.CheckBoxFor(model => model.LocalViaje, new { @class = "form-check-input" })
                             @Html.LabelFor(model => model.LocalViaje, new { @class = "form-check-label" })
+                            <i class="fas fa-route ms-1"></i>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-check">
                             @Html.CheckBoxFor(model => model.Cabina, new { @class = "form-check-input" })
                             @Html.LabelFor(model => model.Cabina, new { @class = "form-check-label" })
+                            <i class="fas fa-door-closed ms-1"></i>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-check">
                             @Html.CheckBoxFor(model => model.Cargado, new { @class = "form-check-input" })
                             @Html.LabelFor(model => model.Cargado, new { @class = "form-check-label" })
+                            <i class="fas fa-dolly ms-1"></i>
                         </div>
                     </div>
                 </div>
@@ -103,25 +127,31 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             @Html.LabelFor(model => model.NumSello, new { @class = "form-label" })
-                            @Html.TextBoxFor(model => model.NumSello, new { @class = "form-control" })
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                @Html.TextBoxFor(model => model.NumSello, new { @class = "form-control" })
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-check">
                             @Html.CheckBoxFor(model => model.Expo, new { @class = "form-check-input" })
                             @Html.LabelFor(model => model.Expo, new { @class = "form-check-label" })
+                            <i class="fas fa-flag ms-1"></i>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-check">
                             @Html.CheckBoxFor(model => model.Caja, new { @class = "form-check-input", id = "cajaCheckbox" })
                             @Html.LabelFor(model => model.Caja, new { @class = "form-check-label" })
+                            <i class="fas fa-box-open ms-1"></i>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-check">
                             @Html.CheckBoxFor(model => model.Vacio, new { @class = "form-check-input" })
                             @Html.LabelFor(model => model.Vacio, new { @class = "form-check-label" })
+                            <i class="fas fa-inbox ms-1"></i>
                         </div>
                     </div>
                 </div>
@@ -141,10 +171,7 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <!-- SweetAlert CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <!-- SweetAlert JS -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     <script>
         $(document).ready(function() {
@@ -360,11 +387,6 @@ function cargarEconomicos(transportistaNombre) {
         }
     });
 }
-
-
-
-
-
 
             // Cargar operadores y económicos al inicio si ya hay un transportista seleccionado
             var initialTransportista = $('#transportistaDropdown').val();

@@ -133,7 +133,7 @@ body {
     padding: 15px 20px;
     font-weight: 600;
     background-color: #021649;
-    color:white;
+    color: white;
 }
 
     .card-header.bg-primary {
@@ -694,6 +694,7 @@ body {
     background-color: #66C0F1 !important;
     color: black !important;
 }
+
 .btn-primary {
     background-color: #021649 !important;
     border-color: #021649 !important;
@@ -706,8 +707,9 @@ body {
 
 .btn-danger {
     background-color: gray !important;
-    border-color:black !important;
+    border-color: black !important;
 }
+
     .btn-danger:hover {
         background-color: #F13E53 !important;
         border-color: black !important;
@@ -738,13 +740,13 @@ body {
 
 .btn-success {
     background-color: #1E82FC;
-    border-color:black;
+    border-color: black;
 }
 
 .btn-warning {
     background-color: #021649;
-    border-color:black;
-    color:white;
+    border-color: black;
+    color: white;
 }
 
     .btn-warning:hover {
@@ -754,7 +756,7 @@ body {
     }
 
 .btn {
-    margin:5px;
+    margin: 5px;
 }
 
 .swal2-confirm {
@@ -800,14 +802,14 @@ body {
 
 
 
-.btn-warning:focus{
-        background-color: black !important; /* Un tono más oscuro para hover/focus */
-        border-color: black !important;
-    }
+.btn-warning:focus {
+    background-color: black !important; /* Un tono más oscuro para hover/focus */
+    border-color: black !important;
+}
 
 
 .btn-success:hover {
-    background-color:gray;
+    background-color: gray;
 }
 
 .main-content {
@@ -850,22 +852,305 @@ footer {
 }
 
 .gris {
-    color:gray;
+    color: gray;
 }
 
 .morado {
-    color: #021649;
+    color: var(--icono);
 }
 
 .azul {
     color: #1E82FC;
 }
 
-.azulclaro{
+.azulclaro {
     color: #66C0F1;
 }
 
 
 .btn:focus {
     background-color: #1E82FC;
+}
+
+
+
+
+
+
+/* Agrega esto al principio de tu CSS */
+:root {
+    /* Colores modo claro (default) */
+    --primary-color: #021649;
+    --primary-dark: #021649;
+    --secondary-color: #F13E53;
+    --accent-color: #66C0F1;
+    --light-bg: #F6F6F6;
+    --text-dark: #161c40;
+    --text-h2-dark: #021649;
+    --text-light: #ffffff;
+    --bg-color: #ffffff;
+    --card-bg: #ffffff;
+    --sidebar-bg: #e8e8e8;
+    --navbar-bg: var(--sidebar-bg);
+    --border-color: #e0e0e0;
+    --input-bg: #ffffff;
+    --table-header-bg: #f8f9fa;
+    --table-hover-bg: rgba(102, 192, 241, 0.1);
+    --scrollbar-thumb: var(--primary-color);
+    --scrollbar-track: #f1f1f1;
+    --boton-paginacion: white;
+    --texto-paginacion: black;
+    --icono: #021649;
+}
+
+/* Modo oscuro */
+[data-theme="dark"] {
+    --primary-color: #17496D;
+    --primary-dark: #17496D;
+    --secondary-color: #F13E53;
+    --accent-color: #1E82FC;
+    --light-bg: #121212;
+    --text-dark: #e0e0e0;
+    --text-h2-dark: white;
+    --bg-color: #1e1e1e;
+    --card-bg: #2d2d2d;
+    --sidebar-bg: #121212;
+    --navbar-bg: #121212;
+    --border-color: #444444;
+    --input-bg: #2d2d2D;
+    --table-header-bg: #252525;
+    --table-hover-bg: rgba(102, 192, 241, 0.2);
+    --scrollbar-thumb: #66C0F1;
+    --scrollbar-track: #2d2d2d;
+    --boton-paginacion: gray;
+    --texto-paginacion: black;
+    --icono: white;
+}
+
+ul li .dt-paging-button {
+    background-color: black !important;
+    color: black !important;
+}
+
+.swal2-popup, .swal2-toast {
+    background-color: var(--bg-color) !important;
+    color: var(--text-dark) !important;
+}
+
+
+
+.container-fluid {
+    background-color: var(--bg-color);
+}
+
+footer {
+    background-color: var(--bg-color) !important;
+}
+
+.table td, .table th {
+    color: var(--text-dark) !important;
+}
+
+
+
+.main-content {
+    background-color: var(--bg-color);
+}
+
+/* Actualiza los estilos existentes para usar variables */
+body {
+    padding-top: 56px;
+    background-color: var(--bg-color) !important;
+    color: var(--text-dark);
+}
+
+.sidebar {
+    background-color: var(--sidebar-bg);
+}
+
+.navbar {
+    background-color: var(--navbar-bg) !important;
+}
+
+.card {
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-dark) !important;
+}
+
+.card-header {
+    background-color: var(--primary-dark) !important;
+    color: var(--text-light) !important;
+}
+
+.table thead th {
+    background-color: var(--table-header-bg) !important;
+    color: var(--text-dark) !important;
+}
+
+.table-hover tbody tr:hover {
+    background-color: var(--table-hover-bg) !important;
+}
+
+.form-control {
+    background-color: var(--input-bg);
+    color: var(--text-dark);
+    border-color: var(--border-color);
+}
+
+.scrollable-container::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+}
+
+.scrollable-container::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+}
+
+.list-group-item {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+    color: var(--text-dark);
+}
+
+.page-title {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+.section-title {
+    color: var(--primary-color);
+    border-bottom-color: var(--border-color);
+}
+
+.form-section {
+    background-color: var(--card-bg);
+    border-left-color: var(--primary-color);
+}
+
+/* Estilo para el interruptor de modo oscuro */
+.theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 15px 0;
+}
+
+.theme-switch {
+    display: inline-block;
+    height: 34px;
+    position: relative;
+    width: 60px;
+}
+
+    .theme-switch input {
+        display: none;
+    }
+
+.slider {
+    background-color: #ccc;
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+    .slider:before {
+        background-color: #fff;
+        bottom: 4px;
+        content: "";
+        height: 26px;
+        left: 4px;
+        position: absolute;
+        transition: .4s;
+        width: 26px;
+        border-radius: 50%;
+    }
+
+input:checked + .slider {
+    background-color: var(--primary-color);
+}
+
+    input:checked + .slider:before {
+        transform: translateX(26px);
+    }
+
+.slider .icons {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 8px;
+    box-sizing: border-box;
+}
+
+    .slider .icons i {
+        color: white;
+        font-size: 14px;
+    }
+
+
+h4 {
+    color: var(--text-light) !important;
+}
+
+h5 {
+    color: var(--text-dark) !important;
+}
+
+h2 {
+    color: var(--text-h2-dark) !important;
+}
+
+.page-link {
+    background-color: var(--boton-paginacion) !important;
+    color: var(--texto-paginacion) !important;
+    border: 1px solid black !important;
+}
+
+
+
+.form-check-input:focus {
+    background-color: black !important; /* Cambia el color de fondo al enfocar */
+    color: black !important;
+}
+
+
+.form-select {
+    background-color: var(--bg-color) !important; /* Cambia el color de fondo al enfocar */
+    color: var(--text-dark) !important;
+}
+
+.form-control {
+    background-color: var(--bg-color) !important; /* Cambia el color de fondo al enfocar */
+    color: var(--text-dark) !important;
+}
+
+
+
+label {
+    color: var(--text-dark) !important;
+}
+
+.goog-te-combo {
+    background-color: var(--card-bg) !important;
+    color: var(--text-dark) !important;
+    border: 1px solid black !important;
+}
+
+.text-primary {
+    color: var(--text-dark) !important;
+}
+
+p {
+    color: var(--text-dark) !important;
+}
+
+.progress-bar {
+    color: black !important;
 }

@@ -5,7 +5,7 @@
 }
 
 <h2 class="mb-4">
-    <i class="fas fa-sign-out-alt text-primary me-2"></i> Registro pase de salida EPL1
+    <i class="fas fa-sign-out-alt text-primary me-2"></i> Salidas pendientes
 </h2>
 
 <!-- Tarjeta principal -->
@@ -28,7 +28,7 @@
                             <th><i class="fas fa-hashtag me-1"></i> Folio</th>
                             <th><i class="fas fa-truck-moving me-1"></i> Económico</th>
                             <th><i class="fas fa-warehouse me-1"></i> Transportista</th>
-                            <th style="width: 150px;"><i class="fas fa-tools me-1"></i> Acciones</th>
+                            <th style="width: 150px;" class="text-center"><i class="fas fa-tools me-1"></i> Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,7 +38,7 @@
                                 <td>@item.Folio</td>
                                 <td>@item.Economico</td>
                                 <td>@item.Transportista</td>
-                                <td>
+                                <td class="text-center">
                                     <a href="@Url.Content("~/Salida/EditarSalida/" + item.IdPaseSalida)" class="btn btn-warning btn-sm" title="Editar">
                                         <i class="fas fa-edit"></i>
                                     </a>
@@ -62,6 +62,12 @@
         </div>
     </div>
 </div>
+
+<style>
+    h5 {
+        color: white !important;
+    }
+</style>
 
 @section Scripts {
     <script>

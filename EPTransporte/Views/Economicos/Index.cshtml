@@ -125,6 +125,16 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
+
+            $('#Nombre').on('input', function () {
+                if ($.trim($(this).val()) === '') {
+                    $(this).addClass('is-invalid');
+                    $(this).next('.invalid-feedback').text('Este campo no puede estar vacío o contener solo espacios').show();
+                } else {
+                    $(this).removeClass('is-invalid');
+                    $(this).next('.invalid-feedback').hide();
+                }
+            });
             $(document).on('click', '.toggle-status-btn', function() {
                 var economicoId = $(this).data('economico-id');
                 var button = $(this);

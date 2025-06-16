@@ -248,7 +248,7 @@ namespace EPTransporte.Controllers
             ViewBag.Auditores = new SelectList(
                 auditoresData.AsEnumerable().Select(row => new SelectListItem
                 {
-                    Value = row["Nombre"].ToString(), // Usar el nombre como valor
+                    Value = row["Nombre"].ToString(), 
                     Text = row["Nombre"].ToString()
                 }),
                 "Value", "Text");
@@ -262,7 +262,6 @@ namespace EPTransporte.Controllers
         {
             if (!ModelState.IsValid)
             {
-                // Reconstruir los dropdowns completamente
                 var sucursalesData = conexion.ObtenerSucursalesDisponibles();
                 ViewBag.Sucursales = new SelectList(
                     sucursalesData.AsEnumerable().Select(row => new SelectListItem

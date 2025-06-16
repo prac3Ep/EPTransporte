@@ -10,7 +10,50 @@
     <!-- Hojas de estilo principales -->
     <link rel="stylesheet" href="~/Content/Site.css" />
     <style>
+        :root {
+            /* Colores modo claro (default) */
+            --primary-color: #021649;
+            --primary-dark: #021649;
+            --secondary-color: #F13E53;
+            --accent-color: #66C0F1;
+            --light-bg: #F6F6F6;
+            --text-dark: #161c40;
+            --text-light: #ffffff;
+            --bg-color: #ffffff;
+            --card-bg: #ffffff;
+            --sidebar-bg: #e8e8e8;
+            --navbar-bg: var(--sidebar-bg);
+            --border-color: #e0e0e0;
+            --input-bg: #ffffff;
+            --table-header-bg: #f8f9fa;
+            --table-hover-bg: rgba(102, 192, 241, 0.1);
+            --scrollbar-thumb: var(--primary-color);
+            --scrollbar-track: #f1f1f1;
+        }
+
+        /* Modo oscuro */
+        [data-theme="dark"] {
+            --primary-color: #17496D;
+            --primary-dark: #021649;
+            --secondary-color: #F13E53;
+            --accent-color: #1E82FC;
+            --light-bg: #121212;
+            --text-dark: #e0e0e0;
+            --bg-color: #1e1e1e;
+            --card-bg: #2d2d2d;
+            --sidebar-bg: #121212;
+            --navbar-bg: #121212;
+            --border-color: #444444;
+            --input-bg: #2d2d2d;
+            --table-header-bg: #252525;
+            --table-hover-bg: rgba(102, 192, 241, 0.2);
+            --scrollbar-thumb: #66C0F1;
+            --scrollbar-track: #2d2d2d;
+        }
+
+
         .sidebar .dropdown-menu {
+            background-color:var(--sidebar-bg);
             position: absolute !important;
             top: 0 !important;
             left: 100% !important;
@@ -25,34 +68,41 @@
         }
 
         .sidebar .dropdown.show .dropdown-menu {
+            color: var(--text-dark) !important;
             display: block;
         }
 
         .sidebar .nav-item {
+            color: var(--text-dark) !important;
             position: static !important;
         }
 
         .sidebar .dropdown {
+            color: var(--text-dark) !important;
             position: relative !important;
         }
 
         .sidebar {
+            color: var(--text-dark) !important;
             overflow: visible !important;
             z-index: 1000;
         }
 
             .sidebar .dropdown-menu {
+                color: var(--text-dark) !important;
                 box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
                 border: 1px solid #dee2e6;
             }
 
             .sidebar .dropdown-item {
+                color: var(--text-dark) !important;
                 padding: 8px 16px;
                 transition: background-color 0.2s;
             }
 
                 .sidebar .dropdown-item:hover {
-                    background-color: #f8f9fa;
+                    color: var(--text-light) !important;
+                    background-color: var(--primary-color) !important;
                 }
 
                 .sidebar .dropdown-item i {
@@ -78,7 +128,7 @@
             <i class="fa-solid fa-bars fa-2x"></i>
         </div>
         <a href="@Url.Action("Index", "Home")">
-            <img src="@Url.Content("~/imagen/EPLogistics-logo.png")" alt="EP Logistics" style="height: 40px;" />
+            <img src="@Url.Content("~/imagen/EPLogistics-logo.png")" alt="EP Logistics" style="height: 40px;" id="logo" />
         </a>
     </nav>
 
@@ -149,7 +199,7 @@
                             </li>
                             <li>
                                 <a href="@Url.Action("Index", "Salida")" class="dropdown-item">
-                                    <i class="fa-solid fa-check-to-slot"></i> Pases de salida
+                                    <i class="fa-solid fa-check-to-slot"></i> Salidas pendientes
                                 </a>
                             </li>
                             <li>
@@ -222,12 +272,50 @@
     <link href="~/Content/toastr/toastr.min.css" rel="stylesheet" />
     <script src="~/Content/toastr/toastr.min.js"></script>
     <script src="~/Scripts/alertas.js"></script>
+
     @RenderSection("scripts", required: false)
 
     <script src="@Url.Content("~/Scripts/bootstrap.bundle.min.js")"></script>
 
     <!-- Scripts globales -->
     <script>
+                // Función para aplicar el tema
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+
+            // Cambiar el logo según el tema
+            const logo = document.getElementById('logo');
+            if (theme === 'dark') {
+                logo.src = '@Url.Content("~/imagen/EP blanco.png")';
+            } else {
+                logo.src = '@Url.Content("~/imagen/EPLogistics-logo.png")';
+            }
+        }
+
+        // Función para alternar entre temas
+        function toggleTheme() {
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            applyTheme(newTheme);
+            document.getElementById('theme-toggle').checked = newTheme === 'dark';
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            applyTheme(savedTheme);
+
+            // Configurar el evento del interruptor
+        });
+
+
+
+
+        (function () {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+
         // Menú toggle
         document.getElementById('menu-toggle')?.addEventListener('click', function () {
             document.querySelector('.sidebar')?.classList.toggle('active');

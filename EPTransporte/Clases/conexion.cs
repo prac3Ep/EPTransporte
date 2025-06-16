@@ -22,6 +22,96 @@ namespace EPTransporte.Clases
         private static DataTable dt;
         private static SqlDataAdapter da;
 
+
+
+        // Dentro de tu clase conexion
+        internal static List<DatosSalida> ObtenerUltimasSalidas(int cantidad)
+        {
+            var salidas = new List<DatosSalida>();
+            DataTable dt = new DataTable();
+            SqlConnection conn = null;
+            SqlCommand comm = null;
+            SqlDataAdapter da = null;
+
+            try
+            {
+                conn = new SqlConnection(sConn);
+                comm = new SqlCommand("Sel_Ultimas_Salidas", conn);
+                comm.CommandType = CommandType.StoredProcedure;
+                comm.Parameters.AddWithValue("@Cantidad", cantidad);
+
+                da = new SqlDataAdapter(comm);
+                conn.Open();
+                da.Fill(dt);
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    salidas.Add(new DatosSalida
+                    {
+                        IdPaseSalida = Convert.ToInt32(dr["IdSalida"]),
+                        Folio = dr["Folio"].ToString(),
+                        Transportista = dr["Transportista"].ToString(),  // Cambiado de TransportistaNombre
+                        Economico = dr["Economico"].ToString()         // Cambiado de EconomicoNombre
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.TraceError($"Error al obtener últimas salidas: {ex.Message}");
+            }
+            finally
+            {
+                if (da != null) da.Dispose();
+                if (comm != null) comm.Dispose();
+                if (conn != null && conn.State == ConnectionState.Open) conn.Close();
+            }
+
+            return salidas;
+        }
+
+        internal static List<DatosEntrada> ObtenerUltimasEntradas(int cantidad)
+        {
+            var entradas = new List<DatosEntrada>();
+            DataTable dt = new DataTable();
+            SqlConnection conn = null;
+            SqlCommand comm = null;
+            SqlDataAdapter da = null;
+
+            try
+            {
+                conn = new SqlConnection(sConn);
+                comm = new SqlCommand("Sel_Ultimas_Entradas", conn);
+                comm.CommandType = CommandType.StoredProcedure;
+                comm.Parameters.AddWithValue("@Cantidad", cantidad);
+
+                da = new SqlDataAdapter(comm);
+                conn.Open();
+                da.Fill(dt);
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    entradas.Add(new DatosEntrada
+                    {
+                        IdPaseEntrada = Convert.ToInt32(dr["IdEntrada"]),
+                        Transportista = dr["TransportistaNombre"].ToString(),
+                        Economico = dr["EconomicoNombre"].ToString(),
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.TraceError($"Error al obtener últimas entradas: {ex.Message}");
+            }
+            finally
+            {
+                if (da != null) da.Dispose();
+                if (comm != null) comm.Dispose();
+                if (conn != null && conn.State == ConnectionState.Open) conn.Close();
+            }
+
+            return entradas;
+        }
+
         internal static bool VerificarExistenciaEconomico(string nombreEconomico, int? idExcluir = null)
         {
             try

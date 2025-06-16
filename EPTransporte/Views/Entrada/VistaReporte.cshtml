@@ -16,28 +16,28 @@
     <div class="card-body">
         @using (Html.BeginForm("VistaReporte", "Entrada", FormMethod.Post))
         {
-        @Html.AntiForgeryToken()
-        <div class="form-section">
-            <div class="form-group row mb-3">
-                <label class="col-md-2 col-form-label">Fecha de Inicio</label>
-                <div class="col-md-4">
-                    @Html.TextBoxFor(model => model.FechaInicio, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", id = "fechaInicio" })
-                    @Html.ValidationMessageFor(model => model.FechaInicio, "", new { @class = "text-danger" })
+            @Html.AntiForgeryToken()
+            <div class="form-section">
+                <div class="form-group row mb-3">
+                    <label class="col-md-2 col-form-label">Fecha de Inicio</label>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.FechaInicio, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", id = "fechaInicio" })
+                        @Html.ValidationMessageFor(model => model.FechaInicio, "", new { @class = "text-danger" })
+                    </div>
+
+                    <label class="col-md-2 col-form-label">Fecha Final</label>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.FechaFinal, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", id = "fechaFinal" })
+                        @Html.ValidationMessageFor(model => model.FechaFinal, "", new { @class = "text-danger" })
+                    </div>
                 </div>
 
-                <label class="col-md-2 col-form-label">Fecha Final</label>
-                <div class="col-md-4">
-                    @Html.TextBoxFor(model => model.FechaFinal, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", id = "fechaFinal" })
-                    @Html.ValidationMessageFor(model => model.FechaFinal, "", new { @class = "text-danger" })
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-filter"></i> Filtrar Reporte
+                    </button>
                 </div>
             </div>
-
-            <div class="form-actions">
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-filter"></i> Filtrar Reporte
-                </button>
-            </div>
-        </div>
         }
     </div>
 </div>
@@ -63,14 +63,14 @@
                 <tbody>
                     @foreach (var item in ViewData["EntradaReporte"] as List<EPTransporte.Models.DatosEntradaReporte>)
                     {
-                    <tr>
-                        <td>@item.IdPaseEntrada</td>
-                        <td>@item.Sucursal</td>
-                        <td>@item.Transportista</td>
-                        <td>@item.Operador</td>
-                        <td>@item.Economico</td>
-                        <td>@item.FechaEntrada</td>
-                    </tr>
+                        <tr>
+                            <td>@item.IdPaseEntrada</td>
+                            <td>@item.Sucursal</td>
+                            <td>@item.Transportista</td>
+                            <td>@item.Operador</td>
+                            <td>@item.Economico</td>
+                            <td>@item.FechaEntrada</td>
+                        </tr>
                     }
                 </tbody>
             </table>
@@ -83,14 +83,126 @@
 {
     var myFecha1 = (string)ViewBag.Fecha1;
     var myFecha2 = (string)ViewBag.Fecha2;
-<div class="text-end mt-3">
-    <a href="@Url.Action("Export", new { lafecha1 = myFecha1, fecha2 = myFecha2 })" class="btn btn-success">
-        <i class="fas fa-file-export"></i> Exportar Archivo
-    </a>
-</div>
+    <div class="text-end mt-3">
+        <a href="@Url.Action("Export", new { lafecha1 = myFecha1, fecha2 = myFecha2 })" class="btn btn-success descargar">
+            <i class="fas fa-file-export"></i> Exportar Archivo
+        </a>
+    </div>
 }
 
-@section Scripts {
-    <script>
-    </script>
-}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Manejar el clic en el botón de exportar Excel
+        document.querySelectorAll("a.descargar").forEach(link => {
+            link.addEventListener("click", function (event) {
+                event.preventDefault();
+                const url = link.getAttribute("href");
+
+                Swal.fire({
+                    title: 'Generando Excel...',
+                    text: 'Espere un momento mientras se genera el reporte',
+                    iconHtml: `
+                    <div class="animated-search-iconExcel swal-icon-excel">
+                        <i class="fas fa-file-excel"></i>
+                    </div>
+                `,
+                    showClass: {
+                        popup: 'animate__animated animate__zoomIn animate__faster',
+                        icon: 'animate__animated animate__zoomIn animate__faster'
+                    },
+                    hideClass: {
+                        popup: 'animate__animated animate__zoomOut animate__faster'
+                    },
+                    background: 'rgba(255, 255, 255, 0.96)',
+                    backdrop: `
+                    rgba(0, 0, 0, 0.4)
+                    center top
+                    no-repeat
+                `,
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                setTimeout(() => {
+                    window.location.href = url;
+
+                    // Cierra el SweetAlert después de 1.5 segundos más
+                    setTimeout(() => {
+                        Swal.close();
+                    }, 1500);
+                }, 1500);
+            });
+        });
+
+        // Observador para los iconos
+        const observer = new MutationObserver(() => {
+            const swalIcon = document.querySelector(".swal2-icon");
+            if (!swalIcon) return;
+
+            const iconElement = swalIcon.querySelector("i");
+            if (!iconElement) return;
+
+            swalIcon.classList.remove("swal-icon-buscar", "swal-icon-pdf", "swal-icon-excel");
+
+            if (iconElement.classList.contains("fa-search")) {
+                swalIcon.classList.add("swal-icon-buscar");
+            } else if (iconElement.classList.contains("fa-file-pdf")) {
+                swalIcon.classList.add("swal-icon-pdf");
+            } else if (iconElement.classList.contains("fa-file-excel")) {
+                swalIcon.classList.add("swal-icon-excel");
+            }
+        });
+
+        observer.observe(document.body, { childList: true, subtree: true });
+    });
+</script>
+
+<style>
+    /* Estilos para el icono de Excel */
+    .swal-icon-excel {
+        animation: circuleanimation-verde 1s ease-out forwards;
+    }
+
+        .swal-icon-excel > i {
+            animation: rotateanimate 2s ease-out forwards;
+        }
+
+    .swal2-icon-content {
+        overflow: hidden;
+    }
+
+
+
+    @@keyframes circuleanimation-verde {
+        0% {
+            transform: scale(1);
+            border-color: black;
+        }
+
+        80% {
+            transform: scale(1.3);
+        }
+
+        100% {
+            transform: scale(1);
+            border-color: black; /* verde */
+        }
+    }
+
+    @@keyframes rotateanimate {
+        80% {
+            transform: rotate(90deg);
+        }
+
+        100% {
+            transform: rotate(90deg) translateY(-500%);
+        }
+    }
+
+    .swal-icon-excel i.fa-file-excel {
+        color: #28a745 !important;
+    }
+</style>

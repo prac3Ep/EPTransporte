@@ -2,8 +2,8 @@
     <!-- Hero Section -->
     <div class="row align-items-center hero-section" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../../imagen/fondo.png'); background-size: cover; min-height: 400px;">
         <div class="col-md-8 mx-auto text-center text-white py-5">
-            <h1 class="display-4">Bienvenido a TransporteEP</h1>
-            <p class="lead">Sistema de gestión de transporte</p>
+            <h1 class="display-4"> <span style="color:#2188FF; vertical-align: text-top; line-height: 1.1em;">&nbsp;[</span> Bienvenido a TransporteEP<span style="color:#2188FF; vertical-align: text-top; line-height: 1.1em;">&nbsp;]</span></h1>
+            <p class="lead" id="titulo">Sistema de gestión de transporte</p>
         </div>
     </div>
 
@@ -50,38 +50,69 @@
         </div>
     </div>
 
-    <!-- Noticias/Actualizaciones -->
+    <!-- Contenedor principal para Movimientos y Estadísticas -->
     <div class="row mt-4">
+        <!-- Contenedor combinado de Últimos Movimientos -->
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header bg-primary text-white">
-                    <i class="fas fa-bullhorn me-2"></i> Últimas Noticias
+                    <i class="fas fa-exchange-alt me-2"></i> Últimos Movimientos de Hoy
                 </div>
                 <div class="card-body">
-                    <div class="list-group">
-                        <div class="list-group-item">
-                            <h5>Nueva actualización del sistema</h5>
-                            <p class="mb-1">Hemos implementado mejoras en el módulo de reportes teniendo una mejora en la automatizacion.</p>
-                            <small class="text-muted">Publicado el 04/06/2025</small>
+                    <div class="row">
+                        <!-- Columna de Salidas -->
+                        <div class="col-md-6">
+                            <h5 class="text-center mb-3"><i class="fas fa-truck-moving me-2"></i>Salidas liberadas</h5>
+                            <div class="list-group">
+                                @if (ViewBag.UltimasSalidas != null && ViewBag.UltimasSalidas.Count > 0)
+                                {
+                                    foreach (var salida in ViewBag.UltimasSalidas)
+                                    {
+                                        <div class="list-group-item">
+                                            <h6>@salida.Folio</h6>
+                                            <p class="mb-1 small">Transportista: @salida.Transportista</p>
+                                            <p class="mb-1 small">Económico: @salida.Economico</p>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="list-group-item">
+                                        <p class="mb-1 text-muted small">No hay pases de salida recientes</p>
+                                    </div>
+                                }
+                            </div>
                         </div>
-                        <div class="list-group-item">
-                            <h5>Nuevos modulos!</h5>
-                            <p class="mb-1">Hemos implementado nuevos modulos de registro para la gestion de:</p>
-                            <ul>
-                                <li>Usuarios</li>
-                                <li>Sucursales</li>
-                                <li>Transportistas</li>
-                                <li>Economicos</li>
-                                <li>Operadores</li>
-                            </ul>
-                            <small class="text-muted">Publicado el 04/06/2025</small>
+
+                        <!-- Columna de Entradas -->
+                        <div class="col-md-6">
+                            <h5 class="text-center mb-3"><i class="fas fa-truck me-2"></i>Entradas</h5>
+                            <div class="list-group">
+                                @if (ViewBag.UltimasEntradas != null && ViewBag.UltimasEntradas.Count > 0)
+                                {
+                                    foreach (var entrada in ViewBag.UltimasEntradas)
+                                    {
+                                        <div class="list-group-item">
+                                            <h6>No. @entrada.IdPaseEntrada</h6>
+                                            <p class="mb-1 small">Transportista: @entrada.Transportista</p>
+                                            <p class="mb-1 small">Económico: @entrada.Economico</p>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="list-group-item">
+                                        <p class="mb-1 text-muted small">No hay pases de entrada recientes</p>
+                                    </div>
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Estadísticas Breves Mejoradas -->
+        <!-- Contenedor de Estadísticas -->
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header bg-success text-white">
@@ -110,14 +141,15 @@
 
                     <div class="row text-center mb-3">
                         <div class="col-6">
-                            <i class="fas fa-user-tie fa-2x text-info mb-2"></i>
-                            <h5>@ViewBag.TransportistasActivos</h5>
-                            <p class="text-muted">Transportistas</p>
-                        </div>
-                        <div class="col-6">
                             <i class="fas fa-truck-moving fa-2x text-secondary mb-2"></i>
-                            <h5>@ViewBag.VehiculosDisponibles</h5>
-                            <p class="text-muted">Vehículos</p>
+                            <h5>@ViewBag.EntradasHoy</h5>
+                            <p class="text-muted">Entradas de hoy</p>
+                        </div>
+
+                        <div class="col-6">
+                            <i class="fas fa-clipboard-list fa-2x morado mb-2"></i>
+                            <h5>@ViewBag.SalidasPendientes</h5>
+                            <p class="text-muted">Salidas pendientes</p>
                         </div>
                     </div>
 
@@ -133,7 +165,6 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 
 <style>
@@ -154,6 +185,24 @@
         }
 
     .card-body {
-        color:black;
+        color: black;
+    }
+
+    #titulo {
+        color: white !important;
+    }
+
+    h4, h5 {
+        color: var(--text-dark) !important;
+    }
+
+    .list-group-item {
+        padding: 0.75rem 1rem;
+        margin-bottom: 0.5rem;
+        border-radius: 0.25rem;
+    }
+
+    .small {
+        font-size: 0.85rem;
     }
 </style>
